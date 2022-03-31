@@ -31,9 +31,10 @@ return new class extends Migration
 
             // teacher
             $table->boolean('teacher_admin')->comment('true, false')->nullable();
+            $table->boolean('teacher')->comment('true, false')->nullable();
             $table->string('graduation')->comment('Graduating, Graduate, Specialist, Mastering, Teacher, PhD student, Doctor, Post-Doctoral, Post-Doctor')->nullable();
             $table->string('telephone', 11)->nullable();
-            $table->boolean('whatsApp')->comment('true, false')->nullable();
+            $table->boolean('whatsapp')->comment('true, false')->nullable();
 
             // student
             $table->string('color_declaration')->comment('Afrodescendant, Indigenous, Yellow, Black1, White, Black2, Brown')->nullable();
