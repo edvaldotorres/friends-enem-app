@@ -22,18 +22,17 @@
         <div class="card-body">
             <div class="sbp-preview">
                 <div class="sbp-preview-content">
-                    <form method="POST">
+                    <form action="{{ route('teachers.store') }}" method="POST">
                         @csrf
+                        <input hidden name="teacher" value="1">
                         <div class="form-group">
                             <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="customRadioInline2" name="customRadioInline1"
-                                    class="custom-control-input">
-                                <label class="custom-control-label" for="customRadioInline2">Professor(a)</label>
+                                <input type="radio" name="teacher_admin" class="custom-control-input" value="0" checked>
+                                <label class="custom-control-label">Professor(a)</label>
                             </div>
                             <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" id="customRadioInline1" name="customRadioInline1"
-                                    class="custom-control-input">
-                                <label class="custom-control-label" for="customRadioInline1">Professor(a)
+                                <input type="radio" name="teacher_admin" class="custom-control-input" value="1">
+                                <label class="custom-control-label">Professor(a)
                                     Administrador(a)</label>
                             </div>
                         </div>
@@ -49,42 +48,49 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label for="cpf">CPF</label>
-                                <input type="text" class="form-control" name="cpf" placeholder="Ex: 000.000.000-00">
+                                <label for="document">CPF</label>
+                                <input type="text" class="form-control mask-document" name="document"
+                                    placeholder="Ex: 000.000.000-00">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="genre">Identificação de gênero</label>
                                 <select name="genre" class="form-control">
-                                    <option selected>Choose...</option>
-                                    <option>...</option>
+                                    <option selected>Selecione</option>
+                                    <option value="1" {{ old('graduation') == '1' ? 'selected' : '' }}>Homem</option>
+                                    <option value="2" {{ old('graduation') == '2' ? 'selected' : '' }}>Mulher</option>
+                                    <option value="3" {{ old('graduation') == '3' ? 'selected' : '' }}>Ambos</option>
+                                    <option value="4" {{ old('graduation') == '4' ? 'selected' : '' }}>Nenhum</option>
+                                    <option value="5" {{ old('graduation') == '5' ? 'selected' : '' }}>Prefiriu não
+                                        informar</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="birth_date">Data de nascimento</label>
-                                <input type="text" class="form-control" name="birth_date" placeholder="Ex: 00/00/0000">
+                                <input type="text" class="form-control mask-birth_date" name="birth_date"
+                                    placeholder="Ex: 00/00/0000">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="zipcode">CEP</label>
-                                <input type="text" class="form-control" name="zipcode" placeholder="00000-000">
+                                <input type="text" class="form-control mask-zipcode" name="zipcode" placeholder="00000-000">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="telephone">Telefone</label>
-                                <input type="text" class="form-control" name="telephone" placeholder="(00) 00000-0000">
+                                <input type="text" class="form-control mask-telephone" name="telephone"
+                                    placeholder="(00) 00000-0000">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="whatsapp">WhatsApp</label>
                                 <div class="col-sm-10">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="whatsapp" value="option1"
-                                            checked>
+                                        <input class="form-check-input" type="radio" name="whatsapp" value="1">
                                         <label class="form-check-label" for="whatsapp">
                                             Sim
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="whatsapp" value="option2">
+                                        <input class="form-check-input" type="radio" name="whatsapp" value="0" checked>
                                         <label class="form-check-label" for="whatsapp">
                                             Não
                                         </label>
@@ -96,8 +102,20 @@
                             <div class="form-group col-md-6">
                                 <label for="graduation">Graduação</label>
                                 <select name="graduation" class="form-control">
-                                    <option selected>Choose...</option>
-                                    <option>...</option>
+                                    <option selected>Selecione</option>
+                                    <option value="1" {{ old('graduation') == '1' ? 'selected' : '' }}>Graduando</option>
+                                    <option value="2" {{ old('graduation') == '2' ? 'selected' : '' }}>Graduado</option>
+                                    <option value="3" {{ old('graduation') == '3' ? 'selected' : '' }}>Especialista
+                                    </option>
+                                    <option value="4" {{ old('graduation') == '4' ? 'selected' : '' }}>Mestrando</option>
+                                    <option value="5" {{ old('graduation') == '5' ? 'selected' : '' }}>Mestre</option>
+                                    <option value="6" {{ old('graduation') == '6' ? 'selected' : '' }}>Doutorando
+                                    </option>
+                                    <option value="7" {{ old('graduation') == '7' ? 'selected' : '' }}>Doutor(a)</option>
+                                    <option value="8" {{ old('graduation') == '8' ? 'selected' : '' }}>Pós-Doutorando
+                                    </option>
+                                    <option value="9" {{ old('graduation') == '9' ? 'selected' : '' }}>Pós-Doutor(a)
+                                    </option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
@@ -123,6 +141,12 @@
                                 <input autocomplete="off" type="password" class="form-control"
                                     placeholder="Informe uma senha" name="password">
                             </div>
+                            <div class="form-group col-md-4">
+                                <i class="fas fa-unlock"></i> <label>Confirme a senha </label>
+                                <input id="password-confirm" autocomplete="off" type="password" class="form-control"
+                                    placeholder="Informe uma senha" name="password_confirmation"
+                                    autocomplete="new-password">
+                            </div>
                         </div>
                         <div class=text-right>
                             <button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -135,12 +159,25 @@
 @endsection
 
 @section('js')
+    {!! JsValidator::formRequest('App\Http\Requests\TeacherRequest') !!}
+
     <script src={{ asset('template/vendor/select2/select2.min.js') }}></script>
 
     <script>
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
             theme: "bootstrap"
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('.mask-document').mask('000.000.000-00', {
+                reverse: true
+            });
+            $('.mask-birth_date').mask('00/00/0000');
+            $('.mask-zipcode').mask('00000-000');
+            $('.mask-telephone').mask('(00) 00000-0000');
         });
     </script>
 @endsection
