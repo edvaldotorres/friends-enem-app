@@ -17,14 +17,12 @@ class BaseRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Get the error messages for the defined validation rules.
      *
      * @return array
      */
-    public function rules()
+    public function messages()
     {
-        return [
-            //
-        ];
+        return [];
     }
 }
