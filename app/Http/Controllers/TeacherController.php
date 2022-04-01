@@ -18,7 +18,9 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        return view('teachers.index');
+        $teachers = User::where('teacher', 1)->paginate(10);
+
+        return view($this->bladePath, compact('teachers'));
     }
 
     /**
