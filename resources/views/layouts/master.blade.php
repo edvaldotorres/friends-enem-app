@@ -97,6 +97,12 @@
     <script src={{ asset('template/js/demo/chart-area-demo.js') }}></script>
     <script src={{ asset('template/js/demo/chart-pie-demo.js') }}></script>
 
+     <!-- jQuery Mask -->
+    <script src={{ asset('template/vendor/jquery-mask/jquery.mask.js') }}></script>
+
+    <!-- Laravel Javascript Validation -->
+    <script src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
+
     <!-- Custom scripts specifc for this template-->
     @hasSection('js')
         @yield('js')
