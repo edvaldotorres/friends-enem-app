@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TeacherRequest;
+use App\Models\Discipline;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,9 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        return view('teachers.create');
+        $disciplines = Discipline::all();
+
+        return view('teachers.create', compact('disciplines'));
     }
 
     /**
@@ -38,8 +41,9 @@ class TeacherController extends Controller
      */
     public function store(TeacherRequest $request)
     {
-        dd($request);
-        User::create($request->validated());
+        $teacher = User::create($request->validated());
+
+        $teacher->disciplines()->attach($request['discipline_id']);
 
         return $this->redirectStoreSuccess($this->bladePath);
     }

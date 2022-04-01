@@ -25,15 +25,23 @@
                     <form action="{{ route('teachers.store') }}" method="POST">
                         @csrf
                         <input hidden name="teacher" value="1">
-                        <div class="form-group">
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" name="teacher_admin" class="custom-control-input" value="0" checked>
-                                <label class="custom-control-label">Professor(a)</label>
-                            </div>
-                            <div class="custom-control custom-radio custom-control-inline">
-                                <input type="radio" name="teacher_admin" class="custom-control-input" value="1">
-                                <label class="custom-control-label">Professor(a)
-                                    Administrador(a)</label>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="teacher_admin">Tipo de cadastro</label>
+                                <div class="col-sm-10">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="teacher_admin" value="0" checked>
+                                        <label class="form-check-label" for="teacher_admin">
+                                            Professor(a)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="teacher_admin" value="1">
+                                        <label class="form-check-label" for="teacher_admin">
+                                            Professor(a) Administrador(a)
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-row">
@@ -119,11 +127,12 @@
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="name">Disciplina</label>
-                                <select class="form-control js-example-basic-multiple" name="name[]" multiple="multiple">
-                                    <option value="AL">Alabama</option>
-                                    ...
-                                    <option value="WY">Wyoming</option>
+                                <label for="discipline_id">Disciplina</label>
+                                <select class="form-control js-example-basic-multiple" name="discipline_id[]"
+                                    multiple="multiple">
+                                    @foreach ($disciplines as $discipline)
+                                        <option value="{{ $discipline->id }}">{{ $discipline->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
