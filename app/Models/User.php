@@ -63,9 +63,31 @@ class User extends Authenticatable
         $this->attributes['document'] = (!empty($value) ? $this->clearField($value) : null);
     }
 
+    public function getDocumentAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return
+            substr($value, 0, 3) . '.' .
+            substr($value, 3, 3) . '.' .
+            substr($value, 6, 3) . '-' .
+            substr($value, 9, 2);
+    }
+
     public function setBirthDateAttribute($value)
     {
         $this->attributes['birth_date'] = (!empty($value) ? $this->convertStringToDate($value) : null);
+    }
+
+    public function getBirthDateAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return date('d/m/Y', strtotime($value));
     }
 
     public function setZipcodeAttribute($value)
@@ -73,9 +95,23 @@ class User extends Authenticatable
         $this->attributes['zipcode'] = (!empty($value) ? $this->clearField($value) : null);
     }
 
+    public function getZipcodeAttribute($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        return substr($value, 0, 5) . '-' . substr($value, 5, 3);
+    }
+
     public function setTelephoneAttribute($value)
     {
         $this->attributes['telephone'] = (!empty($value) ? $this->clearField($value) : null);
+    }
+
+    public function getTelephoneAttribute($value)
+    {
+        return '+' . substr($value, 0, 2) . ' (' . substr($value, 2, 2) . ') ' . substr($value, 4, 5) . '-' . substr($value, 8, 4);
     }
 
     public function setPasswordAttribute($value)

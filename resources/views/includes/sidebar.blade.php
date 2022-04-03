@@ -13,12 +13,12 @@
     </li>
     <hr class="sidebar-divider">
     <div class="sidebar-heading">
-        Gestão de alunos
+        Gestão de professores
     </div>
     <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="{{ route('teachers.index') }}">
             <i class="fas fa-solid fa-users"></i>
-            <span>Listagem de alunos</span></a>
+            <span>Listagem</span></a>
     </li>
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
