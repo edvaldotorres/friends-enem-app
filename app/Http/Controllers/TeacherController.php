@@ -69,7 +69,15 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+
+        if (!$user) {
+            return $this->redirectNotFound($this->bladePath);
+        }
+
+        $disciplines = Discipline::all();
+
+        return view('teachers.edit', compact('user', 'disciplines'));
     }
 
     /**
@@ -79,9 +87,9 @@ class TeacherController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TeacherRequest $request, $id)
     {
-        //
+        dd($request);
     }
 
     /**

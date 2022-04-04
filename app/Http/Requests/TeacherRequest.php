@@ -37,7 +37,7 @@ class TeacherRequest extends BaseRequest
             'graduation' => 'required|in:1,2,3,4,5,6,7,8,9',
             'discipline_id' => 'required',
             'email' => (!empty($this->request->all()['id']) ? 'required|email|unique:users,email,' . $this->request->all()['id'] : 'required|email|unique:users,email'),
-            'password' => (empty($this->request->all()['id']) ? 'required|string|min:8|confirmed' : 'string|min:8|confirmed'),
+            'password' => (empty($this->request->all()['id']) ? 'required|string|min:8|confirmed' : ''),
         ];
     }
 }
