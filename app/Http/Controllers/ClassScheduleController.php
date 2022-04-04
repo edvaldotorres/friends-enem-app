@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClassSchedule;
 use Illuminate\Http\Request;
 
 class ClassScheduleController extends Controller
 {
+    private string $bladePath = 'class-schedules.index';
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +16,9 @@ class ClassScheduleController extends Controller
      */
     public function index()
     {
-        //
+        $classSchedules = ClassSchedule::all();
+
+        return view($this->bladePath, compact('classSchedules'));
     }
 
     /**
