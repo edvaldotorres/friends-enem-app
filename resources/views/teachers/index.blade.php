@@ -47,7 +47,27 @@
                                 <td>{{ $teacher->name }}</td>
                                 <td>{{ $teacher->email }}</td>
                                 <td>{{ $teacher->document }}</td>
-                                <td>2011/04/25</td>
+                                <td class="d-flex">
+                                    <a class="mr-1 btn btn-primary"
+                                        href="{{ route('teachers.edit', ['teacher' => $teacher->id]) }}">
+                                        <i class="fas fa-solid fa-edit"></i>
+                                    </a>
+                                    <a class="mr-1 btn btn-warning"
+                                        href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}">
+                                        <i class="fas fa-solid fa-info"></i>
+                                    </a>
+                                    <form action="{{ route('teachers.destroy', ['teacher' => $teacher->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('delete')
+                                        <div class="form-group">
+                                            <input name="_method" value="delete" hidden>
+                                            <button type="submit" class="btn btn-danger btn-icon">
+                                                <i class="fas fa-solid fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

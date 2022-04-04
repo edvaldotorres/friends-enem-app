@@ -47,18 +47,20 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="name">Nome completo</label>
-                                <input type="text" class="form-control" name="name" placeholder="Ex: João Paulo Batista">
+                                <input type="text" class="form-control" name="name" placeholder="Ex: João Paulo Batista"
+                                    value="{{ old('name') }}">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="nickname">Nome social</label>
-                                <input type="text" class="form-control" name="nickname" placeholder="Ex: Paulo">
+                                <input type="text" class="form-control" name="nickname" placeholder="Ex: Paulo"
+                                    value="{{ old('nickname') }}">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="document">CPF</label>
                                 <input type="text" class="form-control mask-document" name="document"
-                                    placeholder="Ex: 000.000.000-00">
+                                    placeholder="Ex: 000.000.000-00" value="{{ old('document') }}">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="genre">Identificação de gênero</label>
@@ -75,18 +77,19 @@
                             <div class="form-group col-md-4">
                                 <label for="birth_date">Data de nascimento</label>
                                 <input type="text" class="form-control mask-birth_date" name="birth_date"
-                                    placeholder="Ex: 00/00/0000">
+                                    placeholder="Ex: 00/00/0000" value="{{ old('birth_date') }}">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="zipcode">CEP</label>
-                                <input type="text" class="form-control mask-zipcode" name="zipcode" placeholder="00000-000">
+                                <input type="text" class="form-control mask-zipcode" name="zipcode" placeholder="00000-000"
+                                    value="{{ old('zipcode') }}">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="telephone">Telefone</label>
                                 <input type="text" class="form-control mask-telephone" name="telephone"
-                                    placeholder="(00) 00000-0000">
+                                    placeholder="(00) 00000-0000" value="{{ old('telephone') }}">
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="whatsapp">WhatsApp</label>
