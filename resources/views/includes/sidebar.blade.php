@@ -47,6 +47,10 @@
             <i class="fas fa-solid fa-users"></i>
             <span>Alunos</span></a>
     </li>
+    <hr class="sidebar-divider d-none d-md-block">
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
     <div class="sidebar-card d-none d-lg-flex">
         <p class="text-center mb-2"><strong>ENEM FELIZ -</strong> Quaisquer dúvidas, favor entrar em contato</p>
         <a class="btn btn-success btn-sm" href="https://api.whatsapp.com/send?phone=5581997252471"
