@@ -28,8 +28,8 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('class-schedules.index') }}">Listagem</a>
-                <a class="collapse-item" href="{{ route('class-schedules.create') }}">Cadastro</a>
+                <a class="collapse-item" href="{{ route('classrooms.index') }}">Listagem</a>
+                <a class="collapse-item" href="{{ route('classrooms.create') }}">Cadastro</a>
             </div>
         </div>
     </li>

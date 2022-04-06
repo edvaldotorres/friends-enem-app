@@ -22,6 +22,9 @@
     <!-- Custom styles for this template-->
     <link href={{ asset('template/css/sb-admin-2.min.css') }} rel="stylesheet">
 
+    <!-- DateTimePicker-->
+    <link href={{ asset('template/vendor/jquery.datetimepicker.min.css') }} rel="stylesheet">
+
     <!-- Custom styles specifc for this template-->
     @hasSection('css')
         @yield('css')
@@ -97,8 +100,11 @@
     <script src={{ asset('template/js/demo/chart-area-demo.js') }}></script>
     <script src={{ asset('template/js/demo/chart-pie-demo.js') }}></script>
 
-     <!-- jQuery Mask -->
+    <!-- jQuery Mask -->
     <script src={{ asset('template/vendor/jquery-mask/jquery.mask.js') }}></script>
+
+    <!-- jQuery DateTimePicker -->
+    <script src={{ asset('template/vendor/jquery.datetimepicker.full.js') }}></script>
 
     <!-- Laravel Javascript Validation -->
     <script src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
