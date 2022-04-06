@@ -57,7 +57,6 @@ class User extends Authenticatable
      * Eloquent: Mutators & Casting
      *
      */
-
     public function setDocumentAttribute($value)
     {
         $this->attributes['document'] = (!empty($value) ? $this->clearField($value) : null);
@@ -147,7 +146,6 @@ class User extends Authenticatable
      * Eloquent: Relationships
      *
      */
-
     public function disciplines()
     {
         return $this->belongsToMany(Discipline::class)->withTimestamps();
