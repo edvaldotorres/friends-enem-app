@@ -6,7 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DisciplineController;
-use App\Http\Controllers\ClassScheduleController;
+use App\Http\Controllers\ClassroomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,12 +32,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('teachers', TeacherController::class);
     Route::resource('students', StudentController::class);
     Route::resource('disciplines', DisciplineController::class);
-    Route::resource('class-schedules', ClassScheduleController::class);
+    Route::resource('classrooms', ClassroomController::class);
 
     /*
     |--------------------------------------------------------------------------
     | Web Routes End-Ponit
     |--------------------------------------------------------------------------
     */
-    Route::get('loading-disciplines', [ClassScheduleController::class, 'ajaxLoadingDisciplines'])->name('loading-disciplines');
+    Route::get('loading-disciplines', [ClassroomController::class, 'ajaxLoadingDisciplines'])->name('loading-disciplines');
 });

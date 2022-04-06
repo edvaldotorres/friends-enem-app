@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ClassSchedule;
+use App\Http\Requests\ClassroomRequest;
+use App\Models\Classroom;
 use App\Models\Discipline;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class ClassScheduleController extends Controller
+class ClassroomController extends Controller
 {
-    private string $bladePath = 'class-schedules.index';
+    private string $bladePath = 'classrooms.index';
 
     /**
      * Display a listing of the resource.
@@ -18,9 +19,9 @@ class ClassScheduleController extends Controller
      */
     public function index()
     {
-        $classSchedules = ClassSchedule::all();
+        $classrooms = Classroom::all();
 
-        return view($this->bladePath, compact('classSchedules'));
+        return view($this->bladePath, compact('classrooms'));
     }
 
     /**
@@ -30,11 +31,13 @@ class ClassScheduleController extends Controller
      */
     public function create()
     {
-        $teachers = User::orderBy('name', 'ASC')->get();
+        $teachers = User::where('teacher', 1)->orderBy('name', 'ASC')->get();
+
+        $students = User::where('teacher', 0)->orderBy('name', 'ASC')->get();
 
         $disciplines = Discipline::where('id', 0)->orderBy('name', 'ASC')->get();
 
-        return view('class-schedules.create', compact('teachers', 'disciplines'));
+        return view('classrooms.create', compact('teachers', 'students', 'disciplines'));
     }
 
     /**
@@ -43,9 +46,13 @@ class ClassScheduleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClassroomRequest $request)
     {
-        //
+        $classroom = Classroom::create($request->validated());
+
+        $classroom->students()->attach($request['student_id']);
+
+        return $this->redirectStoreSuccess($this->bladePath);
     }
 
     /**
@@ -107,6 +114,6 @@ class ClassScheduleController extends Controller
 
         $teacherDisciplines = User::with('disciplines')->where('id', $teacher_id)->find($teacher_id);
 
-        return view('class-schedules.ajax-discipline', compact('teacherDisciplines'));
+        return view('classrooms.ajax-discipline', compact('teacherDisciplines'));
     }
 }

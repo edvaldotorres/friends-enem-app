@@ -10,7 +10,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Aulas</h1>
-        <a href="{{ route('class-schedules.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <a href="{{ route('classrooms.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
             <i class="fas fa-solid fa-plus"></i> Cadastar</a>
     </div>
 
@@ -41,22 +41,22 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($classSchedules as $classSchedule)
+                        @foreach ($classrooms as $classroom)
                             <tr>
-                                <td>{{ $classSchedule->start_timestamp }}</td>
-                                <td>{{ $classSchedule->start_timestamp }}</td>
-                                <td>{{ $classSchedule->end_timestamp }}</td>
-                                <td>{{ $classSchedule->dicipline }}</td>
+                                <td>{{ $classroom->start_timestamp }}</td>
+                                <td>{{ $classroom->start_timestamp }}</td>
+                                <td>{{ $classroom->end_timestamp }}</td>
+                                <td>{{ $classroom->dicipline }}</td>
                                 <td class="d-flex">
                                     <a class="mr-1 btn btn-primary"
-                                        href="{{ route('class-schedules.edit', ['teacher' => $teacher->id]) }}">
+                                        href="{{ route('classrooms.edit', ['classroom' => $classroom->id]) }}">
                                         <i class="fas fa-solid fa-edit"></i>
                                     </a>
                                     <a class="mr-1 btn btn-warning"
-                                        href="{{ route('class-schedules.show', ['teacher' => $teacher->id]) }}">
+                                        href="{{ route('classrooms.show', ['classroom' => $classroom->id]) }}">
                                         <i class="fas fa-solid fa-info"></i>
                                     </a>
-                                    <form action="{{ route('class-schedules.destroy', ['teacher' => $teacher->id]) }}"
+                                    <form action="{{ route('classrooms.destroy', ['classroom' => $classroom->id]) }}"
                                         method="POST">
                                         @csrf
                                         @method('delete')
