@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StudentRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
+    private string $bladePath = 'students.index';
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +17,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $students = User::where('teacher', 0)->paginate(10);
+
+        return view($this->bladePath, compact('students'));
     }
 
     /**
@@ -23,7 +29,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('students.create');
     }
 
     /**
@@ -32,9 +38,11 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StudentRequest $request)
     {
-        //
+        User::create($request->validated());
+
+        return $this->redirectStoreSuccess($this->bladePath);
     }
 
     /**
