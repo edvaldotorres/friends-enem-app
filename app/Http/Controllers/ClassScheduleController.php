@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClassSchedule;
+use App\Models\Discipline;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ClassScheduleController extends Controller
@@ -28,7 +30,11 @@ class ClassScheduleController extends Controller
      */
     public function create()
     {
-        //
+        $teachers = User::orderBy('name', 'ASC')->get();
+
+        $disciplines = Discipline::where('id', 0)->orderBy('name', 'ASC')->get();
+
+        return view('class-schedules.create', compact('teachers', 'disciplines'));
     }
 
     /**
@@ -85,5 +91,22 @@ class ClassScheduleController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Teacher loading disciplines ajax request
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function ajaxLoadingDisciplines(Request $request)
+    {
+        $dataForm = $request->all('user_id');
+
+        $teacher_id = $dataForm['user_id'];
+
+        $teacherDisciplines = User::with('disciplines')->where('id', $teacher_id)->find($teacher_id);
+
+        return view('class-schedules.ajax-discipline', compact('teacherDisciplines'));
     }
 }

@@ -33,4 +33,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('students', StudentController::class);
     Route::resource('disciplines', DisciplineController::class);
     Route::resource('class-schedules', ClassScheduleController::class);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Web Routes End-Ponit
+    |--------------------------------------------------------------------------
+    */
+    Route::get('loading-disciplines', [ClassScheduleController::class, 'ajaxLoadingDisciplines'])->name('loading-disciplines');
 });

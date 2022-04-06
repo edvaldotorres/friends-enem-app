@@ -19,7 +19,7 @@ class CreateClassSchedulesTable extends Migration
 			$table->unsignedBigInteger('user_id');
 			$table->foreign('user_id')->references('id')->on('users');
 
-			$table->integer('discipline');
+			$table->integer('discipline_id');
 			$table->timestamp('start_timestamp');
 			$table->timestamp('end_timestamp');
 			$table->string('vacancie');
