@@ -66,11 +66,11 @@
                                 <label for="genre">Identificação de gênero</label>
                                 <select name="genre" class="form-control">
                                     <option selected>Selecione</option>
-                                    <option value="1" {{ old('graduation') == '1' ? 'selected' : '' }}>Homem</option>
-                                    <option value="2" {{ old('graduation') == '2' ? 'selected' : '' }}>Mulher</option>
-                                    <option value="3" {{ old('graduation') == '3' ? 'selected' : '' }}>Ambos</option>
-                                    <option value="4" {{ old('graduation') == '4' ? 'selected' : '' }}>Nenhum</option>
-                                    <option value="5" {{ old('graduation') == '5' ? 'selected' : '' }}>Prefiriu não
+                                    <option value="1" {{ old('genre') == '1' ? 'selected' : '' }}>Homem</option>
+                                    <option value="2" {{ old('genre') == '2' ? 'selected' : '' }}>Mulher</option>
+                                    <option value="3" {{ old('genre') == '3' ? 'selected' : '' }}>Ambos</option>
+                                    <option value="4" {{ old('genre') == '4' ? 'selected' : '' }}>Nenhum</option>
+                                    <option value="5" {{ old('genre') == '5' ? 'selected' : '' }}>Prefiriu não
                                         informar</option>
                                 </select>
                             </div>
