@@ -52,6 +52,13 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <div class="flash-message">
+                        @foreach (['danger', 'warning', 'success', 'info'] as $msg)
+                            @if (Session::has('alert-' . $msg))
+                                <p class="alert alert-{{ $msg }}">{{ Session::get('alert-' . $msg) }}</p>
+                            @endif
+                        @endforeach
+                    </div>
                     @yield('content')
                 </div>
                 <!-- /.container-fluid -->
@@ -108,6 +115,15 @@
 
     <!-- Laravel Javascript Validation -->
     <script src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
+
+    <script>
+        $("document").ready(function() {
+            setTimeout(function() {
+                $("div.flash-message").remove();
+            }, 5000);
+
+        });
+    </script>
 
     <!-- Custom scripts specifc for this template-->
     @hasSection('js')
