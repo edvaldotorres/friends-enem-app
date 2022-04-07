@@ -4,6 +4,7 @@
 
 @section('css')
     <link href={{ asset('template/vendor/select2/select2.min.css') }} rel="stylesheet">
+    <link href={{ asset('template/vendor/select2/select2-bootstrap-5-theme.rtl.min.css') }} rel="stylesheet">
 @endsection
 
 @section('content')
@@ -131,8 +132,8 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="discipline_id">Disciplina</label>
-                                <select class="form-control js-example-basic-multiple" name="discipline_id[]"
-                                    multiple="multiple">
+                                <select class="form-select" name="discipline_id" id="multiple-select-field"
+                                    data-placeholder="Selecione" multiple>
                                     @foreach ($disciplines as $discipline)
                                         <option value="{{ $discipline->id }}">{{ $discipline->name }}</option>
                                     @endforeach
@@ -177,8 +178,13 @@
 
     <script>
         $(document).ready(function() {
-            $('.js-example-basic-multiple').select2();
-            theme: "bootstrap"
+            $('#multiple-select-field').select2({
+                theme: "bootstrap-5",
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' :
+                    'style',
+                placeholder: $(this).data('placeholder'),
+                closeOnSelect: false,
+            });
         });
     </script>
 
