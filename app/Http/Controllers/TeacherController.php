@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TeacherRequest;
 use App\Models\Discipline;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
@@ -69,15 +68,15 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $teacher = User::find($id);
 
-        if (!$user) {
+        if (!$teacher) {
             return $this->redirectNotFound($this->bladePath);
         }
 
         $disciplines = Discipline::all();
 
-        return view('teachers.edit', compact('user', 'disciplines'));
+        return view('teachers.edit', compact('teacher', 'disciplines'));
     }
 
     /**
@@ -89,7 +88,15 @@ class TeacherController extends Controller
      */
     public function update(TeacherRequest $request, $id)
     {
-        dd($request);
+        $teacher = User::find($id);
+
+        if (!$teacher) {
+            return $this->redirectNotFound($this->bladePath);
+        }
+
+        $teacher->update($request->validated());
+        
+        return $this->redirectUpdatedSuccess($this->bladePath);
     }
 
     /**
