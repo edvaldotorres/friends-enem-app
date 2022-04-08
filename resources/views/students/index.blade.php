@@ -7,14 +7,11 @@
 @endsection
 
 @section('content')
-    <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Alunos</h1>
         <a href="{{ route('students.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
             <i class="fas fa-solid fa-plus"></i> Cadastar</a>
     </div>
-
-    <!-- DataTales -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Listagem de alunos</h6>
@@ -44,25 +41,20 @@
                                 <td>{{ $student->name }}</td>
                                 <td>{{ $student->email }}</td>
                                 <td>{{ $student->document }}</td>
-                                <td class="d-flex">
-                                    <a class="mr-1 btn btn-primary"
-                                        href="{{ route('students.edit', ['student' => $student->id]) }}">
+                                <td class="d-flex justify-content-sm-around">
+                                    <a class="btn btn-primary"
+                                        href="{{ route('students.edit', ['student' => $student->id]) }}" role="button">
                                         <i class="fas fa-solid fa-edit"></i>
                                     </a>
-                                    <a class="mr-1 btn btn-warning"
-                                        href="{{ route('students.show', ['student' => $student->id]) }}">
+                                    <a class="btn btn-warning"
+                                        href="{{ route('students.show', ['student' => $student->id]) }}" role="button">
                                         <i class="fas fa-solid fa-info"></i>
                                     </a>
                                     <form action="{{ route('students.destroy', ['student' => $student->id]) }}"
                                         method="POST">
-                                        @csrf
-                                        @method('delete')
-                                        <div class="form-group">
-                                            <input name="_method" value="delete" hidden>
-                                            <button type="submit" class="btn btn-danger btn-icon">
-                                                <i class="fas fa-solid fa-trash"></i>
-                                            </button>
-                                        </div>
+                                        <button class="btn btn-danger">
+                                            <i class="fas fa-solid fa-trash"></i>
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
