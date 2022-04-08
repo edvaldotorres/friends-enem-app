@@ -26,15 +26,14 @@ class TeacherRequest extends BaseRequest
     public function rules()
     {
         return [
-            'teacher_admin' => 'required|in:0,1',
-            'teacher' => 'required|in:1',
+            'type' => 'required|in:1,2',
             'name' => 'required|min:3|max:255',
             'nickname' => 'required',
             'document' => (!empty($this->route('teacher')) ? 'required|min:11|max:14|unique:users,document,' . $this->route('teacher') : 'required|min:11|max:14|unique:users,document'),
             'genre' => 'required|in:1,2,3,4,5',
             'birth_date' => 'required|min:10|date_format:d/m/Y',
-            'zipcode' => 'min:9',
-            'telephone' => 'required|min:15',
+            'zipcode' => 'required|min:9',
+            'telephone' => 'nullable|min:15',
             'whatsapp' => 'required|in:0,1',
             'graduation' => 'required|in:1,2,3,4,5,6,7,8,9',
             'discipline_id' => 'required',

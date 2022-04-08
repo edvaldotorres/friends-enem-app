@@ -22,22 +22,21 @@
                     <form action="{{ route('teachers.update', ['teacher' => $teacher->id]) }}" method="POST">
                         @csrf
                         @method('PUT')
-                        <input hidden name="teacher" value="1">
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label for="teacher_admin">Tipo de cadastro</label>
+                                <label for="type">Tipo de cadastro</label>
                                 <div class="col-sm-10">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="teacher_admin" value="0"
-                                            {{ old('teacher_admin') == '0' ? 'checked' : ($teacher->teacher_admin == 0 ? 'checked' : '') }}>
-                                        <label class="form-check-label" for="teacher_admin">
+                                        <input class="form-check-input" type="radio" name="type" value="2"
+                                            {{ old('type') == '2' ? 'checked' : ($teacher->type == 2 ? 'checked' : '') }}>
+                                        <label class="form-check-label" for="type">
                                             Professor(a)
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="teacher_admin" value="1"
-                                            {{ old('teacher_admin') == '1' ? 'checked' : ($teacher->teacher_admin == 1 ? 'checked' : '') }}>
-                                        <label class="form-check-label" for="teacher_admin">
+                                        <input class="form-check-input" type="radio" name="type" value="1"
+                                            {{ old('type') == '1' ? 'checked' : ($teacher->type == 1 ? 'checked' : '') }}>
+                                        <label class="form-check-label" for="type">
                                             Professor(a) Administrador(a)
                                         </label>
                                     </div>

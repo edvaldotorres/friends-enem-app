@@ -24,7 +24,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Admin</th>
+                            <th>Tipo</th>
                             <th>Nome</th>
                             <th>E-mail</th>
                             <th>CPF</th>
@@ -33,7 +33,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>Admin</th>
+                            <th>Tipo</th>
                             <th>Nome</th>
                             <th>E-mail</th>
                             <th>CPF</th>
@@ -43,7 +43,13 @@
                     <tbody>
                         @foreach ($teachers as $teacher)
                             <tr>
-                                <td>{{ $teacher->teacher_admin }}</td>
+                                <td>
+                                    @if ($teacher->type == 1)
+                                        <div class="badge bg-primary text-white rounded-pill">Administrador</div>
+                                    @else
+                                        <div class="badge bg-info text-white rounded-pill">Professor</div>
+                                    @endif
+                                </td>
                                 <td>{{ $teacher->name }}</td>
                                 <td>{{ $teacher->email }}</td>
                                 <td>{{ $teacher->document }}</td>
