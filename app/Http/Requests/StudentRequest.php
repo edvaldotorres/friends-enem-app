@@ -23,32 +23,18 @@ class StudentRequest extends BaseRequest
      */
     public function rules()
     {
-        switch ($this->route()->getName()) {
-            case 'students.edit':
-            case 'students.update':
-                $document = 'required|min:11|max:14';
-                $email = 'required|email';
-                $password = 'nullable|string|min:8|confirmed';
-                break;
-            default:
-                $document = 'required|min:11|max:14|unique:users,document';
-                $email = 'required|email|unique:users,email';
-                $password = 'required|string|min:8|confirmed';
-                break;
-        }
-        
         return [
             'teacher' => 'required|in:0',
             'name' => 'required|min:3|max:255',
             'nickname' => 'required',
-            'document' => $document,
+            'document' => (!empty($this->route('student')) ? 'required|min:11|max:14|unique:users,document,' . $this->route('student') : 'required|min:11|max:14|unique:users,document'),
             'genre' => 'required|in:1,2,3,4,5',
             'birth_date' => 'required|min:10|date_format:d/m/Y',
             'zipcode' => 'min:9',
             'color_declaration' => 'required|in:1,2,3,4,5,6,7',
             'observation' => 'nullable',
-            'email' => $email,
-            'password' => $password,
+            'email' => (!empty($this->route('student')) ? 'required|email|unique:users,email,' . $this->route('student') : 'required|email|unique:users,email'),
+            'password' => (empty($this->route('student')) ? 'required|string|min:8|confirmed' : 'nullable|string|min:8|confirmed'),
         ];
     }
 }

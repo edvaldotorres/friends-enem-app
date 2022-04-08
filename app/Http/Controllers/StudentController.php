@@ -64,7 +64,13 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $student = User::find($id);
+
+        if (!$student) {
+            return $this->redirectNotFound($this->bladePath);
+        }
+
+        return view('students.edit', compact('student'));
     }
 
     /**
@@ -74,9 +80,17 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StudentRequest $request, $id)
     {
-        //
+        $student = User::find($id);
+
+        if (!$student) {
+            return $this->redirectNotFound($this->bladePath);
+        }
+
+        $student->update($request->validated());
+
+        return $this->redirectUpdatedSuccess($this->bladePath);
     }
 
     /**
