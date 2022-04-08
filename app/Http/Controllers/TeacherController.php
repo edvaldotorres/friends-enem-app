@@ -95,7 +95,9 @@ class TeacherController extends Controller
         }
 
         $teacher->update($request->validated());
-        
+
+        $teacher->disciplines()->sync($request['discipline_id']);
+
         return $this->redirectUpdatedSuccess($this->bladePath);
     }
 
