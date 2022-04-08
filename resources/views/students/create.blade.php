@@ -21,7 +21,7 @@
                 <div class="sbp-preview-content">
                     <form action="{{ route('students.store') }}" method="POST">
                         @csrf
-                        <input hidden name="teacher" value="0">
+                        <input hidden name="type" value="3">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="name">Nome completo</label>
@@ -67,7 +67,7 @@
                             <div class="form-group col-md-4">
                                 <label for="color_declaration">Auto declaração de cor</label>
                                 <select name="color_declaration" class="form-control">
-                                    <option selected>Selecione</option>
+                                    <option selected value="">Selecione</option>
                                     <option value="1" {{ old('color_declaration') == '1' ? 'selected' : '' }}>
                                         Afrodescendente</option>
                                     <option value="2" {{ old('color_declaration') == '2' ? 'selected' : '' }}>Indígena
