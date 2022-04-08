@@ -6,13 +6,6 @@ use Illuminate\Support\Facades\Session;
 
 trait FeedBack
 {
-    public function redirectBack(
-        string $type,
-        string $msg
-    ) {
-        return redirect()->back()->with(Session::flash($type, $msg));
-    }
-
     public function redirectStoreSuccess(
         string $path,
         string $type = 'alert-success',
