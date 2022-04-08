@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
-class Discipline extends Model
+class Discipline extends BaseModel
 {
-    use HasFactory;
-
     /**
      * The table associated with the model.
      *
@@ -24,4 +21,13 @@ class Discipline extends Model
     protected $fillable = [
         'name',
     ];
+
+    /**
+     * Eloquent: Query Scopes
+     *
+     */
+    public function scopeDisciplines(Builder $query)
+    {
+        $query->where('id', 0)->orderBy('name', 'ASC');
+    }
 }

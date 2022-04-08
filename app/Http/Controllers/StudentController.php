@@ -17,7 +17,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = User::where('type', 3)->paginate(10);
+        $students = User::ListStudents()->paginate(10);
 
         return view($this->bladePath, compact('students'));
     }

@@ -161,8 +161,13 @@ class User extends Authenticatable
     {
         $q->where(function ($query) {
             $query->where('type', 1);
-        })->orWhere(function($query) {
+        })->orWhere(function ($query) {
             $query->where('type', 2);
         });
+    }
+
+    public function scopeListStudents(Builder $query)
+    {
+        $query->where('type', 3)->orderBy('name', 'ASC');
     }
 }

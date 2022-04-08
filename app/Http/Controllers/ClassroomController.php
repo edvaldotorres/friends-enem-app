@@ -31,11 +31,11 @@ class ClassroomController extends Controller
      */
     public function create()
     {
-        $teachers = User::where('teacher', 1)->orderBy('name', 'ASC')->get();
+        $teachers = User::ListTeachers()->get();
 
-        $students = User::where('teacher', 0)->orderBy('name', 'ASC')->get();
+        $students = User::ListStudents()->get();
 
-        $disciplines = Discipline::where('id', 0)->orderBy('name', 'ASC')->get();
+        $disciplines = Discipline::Disciplines()->get();
 
         return view('classrooms.create', compact('teachers', 'students', 'disciplines'));
     }

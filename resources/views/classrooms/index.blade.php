@@ -43,7 +43,7 @@
                                 <td>{{ $classroom->week }}</td>
                                 <td>{{ $classroom->start_timestamp }}</td>
                                 <td>{{ $classroom->end_timestamp }}</td>
-                                <td>{{ $classroom->dicipline }}</td>
+                                <td>{{ $classroom->discipline_id }}</td>
                                 <td class="d-flex justify-content-sm-around">
                                     <a class="btn btn-primary"
                                         href="{{ route('classrooms.edit', ['classroom' => $classroom->id]) }}"
