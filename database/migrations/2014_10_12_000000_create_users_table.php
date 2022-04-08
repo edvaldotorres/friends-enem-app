@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('password');
 
             // default
-            $table->boolean('teacher')->default(false)->comment('true, false')->nullable();
+            $table->integer('type')->default(1)->comment('1 = Teacher Admin, 2 = Teacher, 3 = Student')->nullable();
             $table->string('nickname')->nullable();
             $table->string('document', 11)->unique()->comment('cpf')->nullable();
             $table->date('birth_date')->nullable();
@@ -31,7 +31,6 @@ return new class extends Migration
             $table->string('zipcode', 8)->nullable();
 
             // teacher
-            $table->boolean('teacher_admin')->default(false)->comment('true, false')->nullable();
             $table->integer('graduation')->comment('1 = Graduating, 2 = Graduate, 3 = Specialist, 4 = Mastering, 5 = Teacher, 6 = PhD student, 7 = Doctor, 8 = Post-Doctoral, 9 = Post-Doctor')->nullable();
             $table->string('telephone', 11)->nullable();
             $table->boolean('whatsapp')->default(false)->comment('true, false')->nullable();
