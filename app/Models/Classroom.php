@@ -26,6 +26,25 @@ class Classroom extends BaseModel
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'week',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'start_timestamp' => 'datetime',
+        'end_timestamp' => 'datetime',
+    ];
+
+    /**
      * Eloquent: Mutators & Casting
      *
      */
@@ -47,6 +66,13 @@ class Classroom extends BaseModel
     public function getEndTimestampAttribute($value)
     {
         return date('H:i', strtotime($value));
+    }
+
+    public function getWeekAttribute()
+    {
+        $week = $this->attributes['start_timestamp'];
+
+        return date('D', strtotime($week));
     }
 
     /**
