@@ -48,6 +48,14 @@ class ClassroomController extends Controller
      */
     public function store(ClassroomRequest $request)
     {
+        // dd($request);
+        // $teste = Classroom::ValidateTeacherClassesNoOverlap($request->user_id, $request->start_timestamp, $request->end_timestamp)->get();
+        // $teste = Classroom::ValidateTeacherClassesNoFourHoursDay($request->user_id);
+        
+        $teste = Classroom::ValidateTeacherClassesNoTwoDicipline($request->user_id);
+
+        dd($teste);
+
         $classroom = Classroom::create($request->validated());
 
         $classroom->students()->attach($request['student_id']);
