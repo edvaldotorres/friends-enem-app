@@ -94,7 +94,7 @@
     <script src={{ asset('template/vendor/jquery.datetimepicker.full.js') }}></script>
 
     <!-- Laravel Javascript Validation -->
-    <script src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
+    <script src="{{ asset('template/vendor/jsvalidation/js/jsvalidation.js') }}"></script>
 
     <script>
         $("document").ready(function() {
