@@ -55,10 +55,6 @@
                                         href="{{ route('teachers.edit', ['teacher' => $teacher->id]) }}" role="button">
                                         <i class="fas fa-solid fa-edit"></i>
                                     </a>
-                                    <a class="btn btn-warning"
-                                        href="{{ route('teachers.show', ['teacher' => $teacher->id]) }}" role="button">
-                                        <i class="fas fa-solid fa-info"></i>
-                                    </a>
                                     <form action="{{ route('teachers.destroy', ['teacher' => $teacher->id]) }}"
                                         method="POST">
                                         <button class="btn btn-danger">
