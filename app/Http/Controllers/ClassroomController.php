@@ -7,9 +7,20 @@ use App\Models\Classroom;
 use App\Models\Discipline;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ClassroomController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     private string $bladePath = 'classrooms.index';
 
     /**
@@ -19,9 +30,28 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        $classrooms = Classroom::all();
+        $type = auth()->user()->type;
 
-        return view($this->bladePath, compact('classrooms'));
+        if ($type == 1) {
+
+            $classrooms = Classroom::all();
+
+            return view($this->bladePath, compact('classrooms'));
+        }
+
+        if ($type == 2) {
+
+            $classrooms = Classroom::where('user_id', auth()->user()->id)->get();
+
+            return view($this->bladePath, compact('classrooms'));
+        }
+
+        if ($type == 3) {
+
+            $classrooms = User::ClassroomsStudents(auth()->user()->id);
+
+            return view($this->bladePath, compact('classrooms'));
+        }
     }
 
     /**
@@ -31,6 +61,9 @@ class ClassroomController extends Controller
      */
     public function create()
     {
+        if (!Gate::authorize('teacher-admin')) {
+        }
+
         $teachers = User::ListTeachers()->get();
 
         $students = User::ListStudents()->get();
@@ -48,10 +81,13 @@ class ClassroomController extends Controller
      */
     public function store(ClassroomRequest $request)
     {
+        if (!Gate::authorize('teacher-admin')) {
+        }
+
         // dd($request);
         // $teste = Classroom::ValidateTeacherClassesNoOverlap($request->user_id, $request->start_timestamp, $request->end_timestamp)->get();
         // $teste = Classroom::ValidateTeacherClassesNoFourHoursDay($request->user_id);
-        
+
         // $teste = Classroom::ValidateTeacherClassesNoTwoDiciplineDay($request->user_id, $request->start_timestamp);
 
         // dd($teste);
@@ -82,7 +118,8 @@ class ClassroomController extends Controller
      */
     public function edit($id)
     {
-        //
+        if (!Gate::authorize('teacher-admin')) {
+        }
     }
 
     /**
@@ -94,7 +131,8 @@ class ClassroomController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if (!Gate::authorize('teacher-admin')) {
+        }
     }
 
     /**
@@ -105,7 +143,8 @@ class ClassroomController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (!Gate::authorize('teacher-admin')) {
+        }
     }
 
     /**

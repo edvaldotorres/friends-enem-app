@@ -153,6 +153,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Discipline::class)->withTimestamps();
     }
 
+    public function classrooms()
+    {
+        return $this->belongsToMany(Classroom::class);
+    }
+
     /**
      * Eloquent: Query Scopes
      *
@@ -169,5 +174,16 @@ class User extends Authenticatable
     public function scopeListStudents(Builder $query)
     {
         $query->where('type', 3)->orderBy('name', 'ASC');
+    }
+
+    public function scopeClassroomsStudents($filter, $id)
+    {
+        $users = $filter->with('classrooms')->where('id', $id)->get();
+
+        foreach ($users as $user) {
+            $classrooms = $user->classrooms;
+        }
+
+        return $classrooms;
     }
 }
