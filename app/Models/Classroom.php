@@ -52,7 +52,7 @@ class Classroom extends BaseModel
      */
     public function setStartTimestampAttribute($value)
     {
-        $this->attributes['start_timestamp'] = date('Y-m-d H:i:s', strtotime($value));
+        $this->attributes['start_timestamp'] = Carbon::createFromFormat('d/m/Y H:i', $value)->format('Y-m-d H:i:s');
     }
 
     public function getStartTimestampAttribute($value)
@@ -62,7 +62,7 @@ class Classroom extends BaseModel
 
     public function setEndTimestampAttribute($value)
     {
-        $this->attributes['end_timestamp'] = date('Y-m-d H:i:s', strtotime($value));
+        $this->attributes['end_timestamp'] = Carbon::createFromFormat('d/m/Y H:i', $value)->format('Y-m-d H:i:s');
     }
 
     public function getEndTimestampAttribute($value)
@@ -107,9 +107,17 @@ class Classroom extends BaseModel
             });
     }
 
-    public function scopeValidateTeacherClassesNoFourHoursDay($filter, $id)
+    public function scopeValidateTeacherClassesNoFourHoursDay($filter, $id, $startTimestamp)
     {
-        $classroomsTheTeacher = $filter->with('teachers')->where('user_id', $id)->get();
+        $formatDate = Carbon::createFromFormat('d/m/Y H:i', $startTimestamp)->format('Y-m-d');
+
+        $startDay = $formatDate . ' 00:00:00';
+        $endDay = $formatDate . ' 23:59:59';
+
+        $classroomsTheTeacher = $filter->with('teachers')
+            ->where('user_id', $id)
+            ->whereBetween('start_timestamp',  [$startDay, $endDay])
+            ->get();
 
         $hours = 0;
 
@@ -120,8 +128,20 @@ class Classroom extends BaseModel
         return ($hours / 60) >= 4;
     }
 
-    // public function scopeValidateTeacherClassesNoTwoDiciplineDay($filter, $id)
-    // {
-    //     $classroomsTheTeacher = $filter->with('teachers')->where('user_id', $id)->get();
-    // }
+    public function scopeValidateTeacherClassesNoTwoDiciplineDay($filter, $id, $startTimestamp)
+    {
+        $formatDate = Carbon::createFromFormat('d/m/Y H:i', $startTimestamp)->format('Y-m-d');
+
+        $startDay = Carbon::parse($formatDate . ' 00:00:00');
+        $endDay = Carbon::parse($formatDate . ' 23:59:59');
+
+        $classroomsTheTeacher = $filter->with('teachers')
+            ->where('user_id', $id)
+            ->where('start_timestamp', '>=', $startDay)
+            ->where('start_timestamp', '<=', $endDay)
+            ->groupBy('discipline_id')
+            ->count();
+
+        return $classroomsTheTeacher >= 2;
+    }
 }

@@ -52,9 +52,9 @@ class ClassroomController extends Controller
         // $teste = Classroom::ValidateTeacherClassesNoOverlap($request->user_id, $request->start_timestamp, $request->end_timestamp)->get();
         // $teste = Classroom::ValidateTeacherClassesNoFourHoursDay($request->user_id);
         
-        $teste = Classroom::ValidateTeacherClassesNoTwoDicipline($request->user_id);
+        // $teste = Classroom::ValidateTeacherClassesNoTwoDiciplineDay($request->user_id, $request->start_timestamp);
 
-        dd($teste);
+        // dd($teste);
 
         $classroom = Classroom::create($request->validated());
 
