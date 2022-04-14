@@ -145,7 +145,7 @@ class ClassroomController extends Controller
         }
 
         $classroom = Classroom::find($id);
-        
+
         if (!$classroom) {
             return $this->redirectNotFound($this->bladePath);
         }
@@ -171,7 +171,7 @@ class ClassroomController extends Controller
         $classroom = Classroom::find($id);
 
         if (!$classroom) {
-            return $this->responseNotFound();
+            return $this->redirectNotFound($this->bladePath);
         }
 
         $classroom->delete();
