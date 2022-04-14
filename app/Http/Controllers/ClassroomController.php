@@ -87,7 +87,7 @@ class ClassroomController extends Controller
         $validatedClassroom = $this->validatedClassroom($request->user_id, $request->start_timestamp, $request->end_timestamp);
 
         if ($validatedClassroom) {
-           return redirect()->back();
+            return redirect()->back();
         }
 
         $classroom = Classroom::create($request->validated());
@@ -139,21 +139,15 @@ class ClassroomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClassroomRequest $request, $id)
     {
         if (!Gate::authorize('teacher-admin')) {
         }
 
         $classroom = Classroom::find($id);
-
+        
         if (!$classroom) {
             return $this->redirectNotFound($this->bladePath);
-        }
-
-        $validatedClassroom = $this->validatedClassroom($request->user_id, $request->start_timestamp, $request->end_timestamp);
-
-        if ($validatedClassroom) {
-           return redirect()->back();
         }
 
         $classroom->update($request->validated());
@@ -173,6 +167,16 @@ class ClassroomController extends Controller
     {
         if (!Gate::authorize('teacher-admin')) {
         }
+
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return $this->responseNotFound();
+        }
+
+        $classroom->delete();
+
+        return $this->responseRemovedSuccess();
     }
 
     /**
