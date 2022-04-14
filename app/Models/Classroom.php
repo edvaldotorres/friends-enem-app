@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Support\Carbon;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
 
 class Classroom extends BaseModel
 {
+    use CascadeSoftDeletes;
+
     /**
      * The table associated with the model.
      *
@@ -34,8 +37,8 @@ class Classroom extends BaseModel
      */
     protected $appends = [
         'week',
-        'startHours',
-        'endHours',
+        'startTimestampDate',
+        'endTimestampDate',
     ];
 
     /**
@@ -46,6 +49,10 @@ class Classroom extends BaseModel
     protected $casts = [
         'start_timestamp' => 'datetime',
         'end_timestamp' => 'datetime',
+    ];
+
+    protected $cascadeDeletes = [
+        'students'
     ];
 
     /**
@@ -59,7 +66,7 @@ class Classroom extends BaseModel
 
     public function getStartTimestampAttribute($value)
     {
-        return date('d/m/Y H:i', strtotime($value));
+        return date('H:i', strtotime($value));
     }
 
     public function setEndTimestampAttribute($value)
@@ -69,7 +76,7 @@ class Classroom extends BaseModel
 
     public function getEndTimestampAttribute($value)
     {
-        return date('d/m/Y H:i', strtotime($value));
+        return date('H:i', strtotime($value));
     }
 
     public function getWeekAttribute()
@@ -79,18 +86,18 @@ class Classroom extends BaseModel
         return date('D', strtotime($week));
     }
 
-    public function getStartHoursAttribute()
+    public function getStartTimestampDateAttribute()
     {
         $startHours = $this->attributes['start_timestamp'];
 
-        return date('H:i', strtotime($startHours));
+        return date('d/m/Y H:i', strtotime($startHours));
     }
 
-    public function getEndHoursAttribute()
+    public function getEndTimestampDateAttribute()
     {
         $endHours = $this->attributes['end_timestamp'];
 
-        return date('H:i', strtotime($endHours));
+        return date('d/m/Y H:i', strtotime($endHours));
     }
 
     /**
@@ -105,59 +112,5 @@ class Classroom extends BaseModel
     public function teachers()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Eloquent: Query Scopes
-     *
-     */
-    public function scopeValidate1($filter, $id, $startTimestamp, $endTimestamp)
-    {
-        $formatStartTimestamp = Carbon::createFromFormat('d/m/Y H:i', $startTimestamp)->format('Y-m-d H:i:s');
-        $formatEndTimestamp = Carbon::createFromFormat('d/m/Y H:i', $endTimestamp)->format('Y-m-d H:i:s');
-
-        return $filter->with('teachers')->where('user_id', $id)
-            ->where(function ($filter) use ($formatStartTimestamp, $formatEndTimestamp) {
-                $filter->whereBetween('start_timestamp', [$formatStartTimestamp, $formatEndTimestamp])
-                    ->orWhereBetween('end_timestamp', [$formatStartTimestamp, $formatEndTimestamp]);
-            });
-    }
-
-    public function scopeValidate2($filter, $id, $startTimestamp)
-    {
-        $formatDate = Carbon::createFromFormat('d/m/Y H:i', $startTimestamp)->format('Y-m-d');
-
-        $startDay = $formatDate . ' 00:00:00';
-        $endDay = $formatDate . ' 23:59:59';
-
-        $classroomsTheTeacher = $filter->with('teachers')
-            ->where('user_id', $id)
-            ->whereBetween('start_timestamp',  [$startDay, $endDay])
-            ->get();
-
-        $hours = 0;
-
-        foreach ($classroomsTheTeacher as $value) {
-            $hours += Carbon::parse($value->end_timestamp)->diffInMinutes($value->start_timestamp);
-        }
-
-        return ($hours / 60) >= 4;
-    }
-
-    public function scopeValidate3($filter, $id, $startTimestamp)
-    {
-        $formatDate = Carbon::createFromFormat('d/m/Y H:i', $startTimestamp)->format('Y-m-d');
-
-        $startDay = Carbon::parse($formatDate . ' 00:00:00');
-        $endDay = Carbon::parse($formatDate . ' 23:59:59');
-
-        $classroomsTheTeacher = $filter->with('teachers')
-            ->where('user_id', $id)
-            ->where('start_timestamp', '>=', $startDay)
-            ->where('start_timestamp', '<=', $endDay)
-            ->groupBy('discipline_id')
-            ->count();
-
-        return $classroomsTheTeacher >= 2;
     }
 }
