@@ -34,6 +34,8 @@ class Classroom extends BaseModel
      */
     protected $appends = [
         'week',
+        'startHours',
+        'endHours',
     ];
 
     /**
@@ -57,7 +59,7 @@ class Classroom extends BaseModel
 
     public function getStartTimestampAttribute($value)
     {
-        return date('H:i', strtotime($value));
+        return date('d/m/Y H:i', strtotime($value));
     }
 
     public function setEndTimestampAttribute($value)
@@ -67,7 +69,7 @@ class Classroom extends BaseModel
 
     public function getEndTimestampAttribute($value)
     {
-        return date('H:i', strtotime($value));
+        return date('d/m/Y H:i', strtotime($value));
     }
 
     public function getWeekAttribute()
@@ -75,6 +77,20 @@ class Classroom extends BaseModel
         $week = $this->attributes['start_timestamp'];
 
         return date('D', strtotime($week));
+    }
+
+    public function getStartHoursAttribute()
+    {
+        $startHours = $this->attributes['start_timestamp'];
+
+        return date('H:i', strtotime($startHours));
+    }
+
+    public function getEndHoursAttribute()
+    {
+        $endHours = $this->attributes['end_timestamp'];
+
+        return date('H:i', strtotime($endHours));
     }
 
     /**

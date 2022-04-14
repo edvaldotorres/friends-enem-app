@@ -118,6 +118,18 @@ class ClassroomController extends Controller
     {
         if (!Gate::authorize('teacher-admin')) {
         }
+
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return $this->redirectNotFound($this->bladePath);
+        }
+
+        $teachers = User::ListTeachers()->get();
+
+        $students = User::ListStudents()->get();
+
+        return view('classrooms.edit', compact('classroom', 'teachers', 'students'));
     }
 
     /**
@@ -132,11 +144,23 @@ class ClassroomController extends Controller
         if (!Gate::authorize('teacher-admin')) {
         }
 
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return $this->redirectNotFound($this->bladePath);
+        }
+
         $validatedClassroom = $this->validatedClassroom($request->user_id, $request->start_timestamp, $request->end_timestamp);
 
         if ($validatedClassroom) {
            return redirect()->back();
         }
+
+        $classroom->update($request->validated());
+
+        $classroom->students()->sync($request['student_id']);
+
+        return $this->redirectUpdatedSuccess($this->bladePath);
     }
 
     /**

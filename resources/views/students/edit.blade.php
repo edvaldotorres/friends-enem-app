@@ -121,7 +121,7 @@
                             <div class="form-group col-md-4">
                                 <i class="far fa-envelope"></i> <label>E-mail </label>
                                 <input autocomplete="off" type="email" class="form-control" placeholder="email@email.com"
-                                    name="email" value="{{ old('email') ?? $student->email }}">
+                                    name="email" value="{{ old('email') ?? $student->StartTimestampDate }}">
                             </div>
                             <div class="form-group col-md-4">
                                 <i class="fas fa-unlock"></i> <label>Senha </label>
