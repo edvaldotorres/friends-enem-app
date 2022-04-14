@@ -37,4 +37,11 @@ trait FeedBack
     ) {
         return redirect()->route($path)->with(Session::flash($type, $msg));
     }
+
+    public function redirectValidateClassromm(
+        string $msg,
+        string $type = 'alert-info'
+    ) {
+        return redirect()->back()->with(Session::flash($type, $msg));
+    }
 }

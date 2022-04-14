@@ -84,13 +84,23 @@ class ClassroomController extends Controller
         if (!Gate::authorize('teacher-admin')) {
         }
 
-        // dd($request);
-        // $teste = Classroom::ValidateTeacherClassesNoOverlap($request->user_id, $request->start_timestamp, $request->end_timestamp)->get();
-        // $teste = Classroom::ValidateTeacherClassesNoFourHoursDay($request->user_id);
+        $teacherClassesNoOverlap = Classroom::Validate1($request->user_id, $request->start_timestamp, $request->end_timestamp)->get();
 
-        // $teste = Classroom::ValidateTeacherClassesNoTwoDiciplineDay($request->user_id, $request->start_timestamp);
+        if (count($teacherClassesNoOverlap) > 0) {
+            return $this->redirectValidateClassromm('O professor já possui uma aula nesse horário!');
+        }
 
-        // dd($teste);
+        $teacherClassesNoFourHoursDay = Classroom::Validate2($request->user_id, $request->start_timestamp);
+
+        if($teacherClassesNoFourHoursDay) {
+            return $this->redirectValidateClassromm('O professor já possui mais de 4 horas de aulas nesse dia!');
+        }
+
+        $teacherClassesNoTwoDiciplineDay = Classroom::Validate3($request->user_id, $request->start_timestamp);
+
+        if($teacherClassesNoTwoDiciplineDay) {
+            return $this->redirectValidateClassromm('O professor já possui duas diciplina nesse dia!');
+        }
 
         $classroom = Classroom::create($request->validated());
 

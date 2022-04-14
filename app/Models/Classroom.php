@@ -95,7 +95,7 @@ class Classroom extends BaseModel
      * Eloquent: Query Scopes
      *
      */
-    public function scopeValidateTeacherClassesNoOverlap($filter, $id, $startTimestamp, $endTimestamp)
+    public function scopeValidate1($filter, $id, $startTimestamp, $endTimestamp)
     {
         $formatStartTimestamp = Carbon::createFromFormat('d/m/Y H:i', $startTimestamp)->format('Y-m-d H:i:s');
         $formatEndTimestamp = Carbon::createFromFormat('d/m/Y H:i', $endTimestamp)->format('Y-m-d H:i:s');
@@ -107,7 +107,7 @@ class Classroom extends BaseModel
             });
     }
 
-    public function scopeValidateTeacherClassesNoFourHoursDay($filter, $id, $startTimestamp)
+    public function scopeValidate2($filter, $id, $startTimestamp)
     {
         $formatDate = Carbon::createFromFormat('d/m/Y H:i', $startTimestamp)->format('Y-m-d');
 
@@ -128,7 +128,7 @@ class Classroom extends BaseModel
         return ($hours / 60) >= 4;
     }
 
-    public function scopeValidateTeacherClassesNoTwoDiciplineDay($filter, $id, $startTimestamp)
+    public function scopeValidate3($filter, $id, $startTimestamp)
     {
         $formatDate = Carbon::createFromFormat('d/m/Y H:i', $startTimestamp)->format('Y-m-d');
 
