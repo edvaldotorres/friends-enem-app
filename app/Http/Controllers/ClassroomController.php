@@ -84,22 +84,10 @@ class ClassroomController extends Controller
         if (!Gate::authorize('teacher-admin')) {
         }
 
-        $teacherClassesNoOverlap = Classroom::Validate1($request->user_id, $request->start_timestamp, $request->end_timestamp)->get();
+        $validatedClassroom = $this->validatedClassroom($request->user_id, $request->start_timestamp, $request->end_timestamp);
 
-        if (count($teacherClassesNoOverlap) > 0) {
-            return $this->redirectValidateClassromm('O professor já possui uma aula nesse horário!');
-        }
-
-        $teacherClassesNoFourHoursDay = Classroom::Validate2($request->user_id, $request->start_timestamp);
-
-        if($teacherClassesNoFourHoursDay) {
-            return $this->redirectValidateClassromm('O professor já possui mais de 4 horas de aulas nesse dia!');
-        }
-
-        $teacherClassesNoTwoDiciplineDay = Classroom::Validate3($request->user_id, $request->start_timestamp);
-
-        if($teacherClassesNoTwoDiciplineDay) {
-            return $this->redirectValidateClassromm('O professor já possui duas diciplina nesse dia!');
+        if ($validatedClassroom) {
+           return redirect()->back();
         }
 
         $classroom = Classroom::create($request->validated());
@@ -142,6 +130,12 @@ class ClassroomController extends Controller
     public function update(Request $request, $id)
     {
         if (!Gate::authorize('teacher-admin')) {
+        }
+
+        $validatedClassroom = $this->validatedClassroom($request->user_id, $request->start_timestamp, $request->end_timestamp);
+
+        if ($validatedClassroom) {
+           return redirect()->back();
         }
     }
 
