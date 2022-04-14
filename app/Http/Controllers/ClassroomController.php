@@ -176,7 +176,7 @@ class ClassroomController extends Controller
 
         $classroom->delete();
 
-        return $this->responseRemovedSuccess();
+        return $this->redirectRemovedSuccess($this->bladePath);
     }
 
     /**

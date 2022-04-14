@@ -57,6 +57,8 @@
                                     </a>
                                     <form action="{{ route('classrooms.destroy', ['classroom' => $classroom->id]) }}"
                                         method="POST">
+                                        @csrf
+                                        @method('DELETE')
                                         <button class="btn btn-danger">
                                             <i class="fas fa-solid fa-trash"></i>
                                         </button>
