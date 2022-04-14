@@ -105,7 +105,17 @@ class ClassroomController extends Controller
      */
     public function show($id)
     {
-        //
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return $this->redirectNotFound($this->bladePath);
+        }
+
+        $teachers = User::ListTeachers()->get();
+
+        $students = User::ListStudents()->get();
+
+        return view('classrooms.show', compact('classroom', 'teachers', 'students'));
     }
 
     /**
