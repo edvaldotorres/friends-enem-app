@@ -30,28 +30,23 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        $type = auth()->user()->type;
-
-        if ($type == 1) {
+        if (auth()->user()->type == 1) {
 
             $classrooms = Classroom::all();
 
             return view($this->bladePath, compact('classrooms'));
         }
 
-        if ($type == 2) {
+        if (auth()->user()->type == 2) {
 
             $classrooms = Classroom::where('user_id', auth()->user()->id)->get();
 
             return view($this->bladePath, compact('classrooms'));
         }
 
-        if ($type == 3) {
+        $classrooms = User::ClassroomsStudents(auth()->user()->id);
 
-            $classrooms = User::ClassroomsStudents(auth()->user()->id);
-
-            return view($this->bladePath, compact('classrooms'));
-        }
+        return view($this->bladePath, compact('classrooms'));
     }
 
     /**
@@ -61,8 +56,7 @@ class ClassroomController extends Controller
      */
     public function create()
     {
-        if (!Gate::authorize('teacher-admin')) {
-        }
+        Gate::authorize('admin');
 
         $teachers = User::ListTeachers()->get();
 
@@ -81,8 +75,7 @@ class ClassroomController extends Controller
      */
     public function store(ClassroomRequest $request)
     {
-        if (!Gate::authorize('teacher-admin')) {
-        }
+        Gate::authorize('admin');
 
         $validatedClassroom = $this->validatedClassroom($request->user_id, $request->start_timestamp, $request->end_timestamp);
 
@@ -105,7 +98,37 @@ class ClassroomController extends Controller
      */
     public function show($id)
     {
-        $classroom = Classroom::find($id);
+        if (auth()->user()->type == 1) {
+
+            $classroom = Classroom::find($id);
+
+            if (!$classroom) {
+                return $this->redirectNotFound($this->bladePath);
+            }
+
+            $teachers = User::ListTeachers()->get();
+
+            $students = User::ListStudents()->get();
+
+            return view('classrooms.show', compact('classroom', 'teachers', 'students'));
+        }
+
+        if (auth()->user()->type == 2) {
+
+            $classroom = Classroom::where('user_id', auth()->user()->id)->find($id);
+
+            if (!$classroom) {
+                return $this->redirectNotFound($this->bladePath);
+            }
+
+            $teachers = User::ListTeachers()->get();
+
+            $students = User::ListStudents()->get();
+
+            return view('classrooms.show', compact('classroom', 'teachers', 'students'));
+        }
+
+        $classroom = User::ClassroomsStudents(auth()->user()->id)->find($id);
 
         if (!$classroom) {
             return $this->redirectNotFound($this->bladePath);
@@ -126,8 +149,7 @@ class ClassroomController extends Controller
      */
     public function edit($id)
     {
-        if (!Gate::authorize('teacher-admin')) {
-        }
+        Gate::authorize('admin');
 
         $classroom = Classroom::find($id);
 
@@ -151,8 +173,7 @@ class ClassroomController extends Controller
      */
     public function update(ClassroomRequest $request, $id)
     {
-        if (!Gate::authorize('teacher-admin')) {
-        }
+        Gate::authorize('admin');
 
         $classroom = Classroom::find($id);
 
@@ -175,8 +196,7 @@ class ClassroomController extends Controller
      */
     public function destroy($id)
     {
-        if (!Gate::authorize('teacher-admin')) {
-        }
+        Gate::authorize('admin');
 
         $classroom = Classroom::find($id);
 
