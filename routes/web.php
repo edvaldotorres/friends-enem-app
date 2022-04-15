@@ -20,7 +20,7 @@ use App\Http\Controllers\HomeController;
 */
 
 Auth::routes([
-    'register' => true
+    'register' => false
 ]);
 
 Route::get('/', function () {
