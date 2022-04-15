@@ -21,33 +21,7 @@ class ClassroomController extends Controller
         $this->middleware('auth');
     }
 
-    private string $bladePath = 'admin.classrooms.index';
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        if (auth()->user()->type == 1) {
-
-            $classrooms = Classroom::all();
-
-            return view($this->bladePath, compact('classrooms'));
-        }
-
-        if (auth()->user()->type == 2) {
-
-            $classrooms = Classroom::where('user_id', auth()->user()->id)->get();
-
-            return view($this->bladePath, compact('classrooms'));
-        }
-
-        $classrooms = User::ClassroomsStudents(auth()->user()->id);
-
-        return view($this->bladePath, compact('classrooms'));
-    }
+    private string $bladePath = 'home';
 
     /**
      * Show the form for creating a new resource.
