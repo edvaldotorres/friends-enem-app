@@ -9,8 +9,10 @@
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Aulas</h1>
-        <a href="{{ route('classrooms.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-solid fa-plus"></i> Cadastar</a>
+        @can('admin')
+            <a href="{{ route('classrooms.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-solid fa-plus"></i> Cadastar</a>
+        @endcan
     </div>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -45,24 +47,28 @@
                                 <td>{{ $classroom->end_timestamp }}</td>
                                 <td>{{ $classroom->discipline_id }}</td>
                                 <td class="d-flex justify-content-sm-around">
-                                    <a class="btn btn-primary"
-                                        href="{{ route('classrooms.edit', ['classroom' => $classroom->id]) }}"
-                                        role="button">
-                                        <i class="fas fa-solid fa-edit"></i>
-                                    </a>
+                                    @can('admin')
+                                        <a class="btn btn-primary"
+                                            href="{{ route('classrooms.edit', ['classroom' => $classroom->id]) }}"
+                                            role="button">
+                                            <i class="fas fa-solid fa-edit"></i>
+                                        </a>
+                                    @endcan
                                     <a class="btn btn-warning"
                                         href="{{ route('classrooms.show', ['classroom' => $classroom->id]) }}"
                                         role="button">
                                         <i class="fas fa-solid fa-info"></i>
                                     </a>
-                                    <form action="{{ route('classrooms.destroy', ['classroom' => $classroom->id]) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger">
-                                            <i class="fas fa-solid fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    @can('admin')
+                                        <form action="{{ route('classrooms.destroy', ['classroom' => $classroom->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-danger">
+                                                <i class="fas fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    @endcan
                                 </td>
                             </tr>
                         @endforeach
