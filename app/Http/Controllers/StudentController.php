@@ -18,7 +18,7 @@ class StudentController extends Controller
         $this->middleware('auth');
     }
 
-    private string $bladePath = 'students.index';
+    private string $bladePath = 'admin.students.index';
 
     /**
      * Display a listing of the resource.
@@ -39,7 +39,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('students.create');
+        return view('admin.students.create');
     }
 
     /**
@@ -69,7 +69,7 @@ class StudentController extends Controller
             return $this->redirectNotFound($this->bladePath);
         }
 
-        return view('students.edit', compact('student'));
+        return view('admin.students.edit', compact('student'));
     }
 
     /**

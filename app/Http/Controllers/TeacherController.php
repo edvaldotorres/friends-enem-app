@@ -18,7 +18,7 @@ class TeacherController extends Controller
         $this->middleware('auth');
     }
     
-    private string $bladePath = 'teachers.index';
+    private string $bladePath = 'admin.teachers.index';
 
     /**
      * Display a listing of the resource.
@@ -41,7 +41,7 @@ class TeacherController extends Controller
     {
         $disciplines = Discipline::all();
 
-        return view('teachers.create', compact('disciplines'));
+        return view('admin.teachers.create', compact('disciplines'));
     }
 
     /**
@@ -75,7 +75,7 @@ class TeacherController extends Controller
 
         $disciplines = Discipline::all();
 
-        return view('teachers.edit', compact('teacher', 'disciplines'));
+        return view('admin.teachers.edit', compact('teacher', 'disciplines'));
     }
 
     /**

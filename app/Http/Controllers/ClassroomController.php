@@ -21,7 +21,7 @@ class ClassroomController extends Controller
         $this->middleware('auth');
     }
 
-    private string $bladePath = 'classrooms.index';
+    private string $bladePath = 'admin.classrooms.index';
 
     /**
      * Display a listing of the resource.
@@ -64,7 +64,7 @@ class ClassroomController extends Controller
 
         $disciplines = Discipline::Disciplines()->get();
 
-        return view('classrooms.create', compact('teachers', 'students', 'disciplines'));
+        return view('admin.classrooms.create', compact('teachers', 'students', 'disciplines'));
     }
 
     /**
@@ -110,7 +110,7 @@ class ClassroomController extends Controller
 
             $students = User::ListStudents()->get();
 
-            return view('classrooms.show', compact('classroom', 'teachers', 'students'));
+            return view('admin.classrooms.show', compact('classroom', 'teachers', 'students'));
         }
 
         if (auth()->user()->type == 2) {
@@ -125,7 +125,7 @@ class ClassroomController extends Controller
 
             $students = User::ListStudents()->get();
 
-            return view('classrooms.show', compact('classroom', 'teachers', 'students'));
+            return view('admin.classrooms.show', compact('classroom', 'teachers', 'students'));
         }
 
         $classroom = User::ClassroomsStudents(auth()->user()->id)->find($id);
@@ -138,7 +138,7 @@ class ClassroomController extends Controller
 
         $students = User::ListStudents()->get();
 
-        return view('classrooms.show', compact('classroom', 'teachers', 'students'));
+        return view('admin.classrooms.show', compact('classroom', 'teachers', 'students'));
     }
 
     /**
@@ -161,7 +161,7 @@ class ClassroomController extends Controller
 
         $students = User::ListStudents()->get();
 
-        return view('classrooms.edit', compact('classroom', 'teachers', 'students'));
+        return view('admin.classrooms.edit', compact('classroom', 'teachers', 'students'));
     }
 
     /**
@@ -223,6 +223,6 @@ class ClassroomController extends Controller
 
         $teacherDisciplines = User::with('disciplines')->where('id', $teacher_id)->find($teacher_id);
 
-        return view('classrooms.ajax-discipline', compact('teacherDisciplines'));
+        return view('admin.classrooms.ajax-discipline', compact('teacherDisciplines'));
     }
 }
