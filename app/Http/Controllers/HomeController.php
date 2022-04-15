@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserType;
 use App\Models\Classroom;
 use App\Models\User;
 
@@ -26,14 +27,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->type == 1) {
+        if (auth()->user()->type == UserType::TEACHER_ADMIN) {
 
             $classrooms = Classroom::all();
 
             return view($this->bladePath, compact('classrooms'));
         }
 
-        if (auth()->user()->type == 2) {
+        if (auth()->user()->type == UserType::TEACHER) {
 
             $classrooms = Classroom::where('user_id', auth()->user()->id)->get();
 
