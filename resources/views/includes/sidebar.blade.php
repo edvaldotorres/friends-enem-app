@@ -43,9 +43,6 @@
         </li>
     @endcan
     <hr class="sidebar-divider d-none d-md-block">
-    <div class="sidebar-heading">
-        Gestão de perfil
-    </div>
     <li class="nav-item">
         <a class="nav-link" href="{{ route('logout') }}"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
