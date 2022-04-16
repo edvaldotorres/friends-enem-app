@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserType;
 use App\Http\Requests\ClassroomRequest;
 use App\Models\Classroom;
 use App\Models\Discipline;
@@ -72,7 +73,7 @@ class ClassroomController extends Controller
      */
     public function show($id)
     {
-        if (auth()->user()->type == 1) {
+        if (auth()->user()->type == UserType::TEACHER_ADMIN) {
 
             $classroom = Classroom::find($id);
 
@@ -87,7 +88,7 @@ class ClassroomController extends Controller
             return view('admin.classrooms.show', compact('classroom', 'teachers', 'students'));
         }
 
-        if (auth()->user()->type == 2) {
+        if (auth()->user()->type == UserType::TEACHER) {
 
             $classroom = Classroom::where('user_id', auth()->user()->id)->find($id);
 
