@@ -92,42 +92,130 @@
             </div>
         </div>
     </div>
-    <div class="form-row">
-        <div class="form-group col-md-12">
-            <div class="card shadow mb-12">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Listagem de alunos na aula</h6>
+    @if (auth()->user()->type == App\Enums\UserType::STUDENT)
+        @foreach ($teachers as $teacher)
+            @if ($teacher->id == $classroom->user_id)
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Dados do professor(a)</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="sbp-preview">
+                            <div class="sbp-preview-content">
+                                <form>
+                                    <fieldset disabled>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="name">Professor(a)</label>
+                                                <input type="text" class="form-control datetimepicker" name="name"
+                                                    value="{{ $teacher->name }}">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="nickname">Nome social</label>
+                                                <input type="text" class="form-control datetimepicker" name="nickname"
+                                                    value="{{ $teacher->nickname }}">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="graduation">Graduação</label>
+                                                <select name="graduation" class="form-control">
+                                                    <label for="graduation">Graduação</label>
+                                                    <option value="1" {{ $teacher->graduation == 1 ? 'selected' : '' }}>
+                                                        Graduando</option>
+                                                    <option value="2" {{ $teacher->graduation == 2 ? 'selected' : '' }}>
+                                                        Graduado</option>
+                                                    <option value="3" {{ $teacher->graduation == 3 ? 'selected' : '' }}>
+                                                        Especialista
+                                                    </option>
+                                                    <option value="4" {{ $teacher->graduation == 4 ? 'selected' : '' }}>
+                                                        Mestrando</option>
+                                                    <option value="5" {{ $teacher->graduation == 5 ? 'selected' : '' }}>
+                                                        Mestre</option>
+                                                    <option value="6" {{ $teacher->graduation == 6 ? 'selected' : '' }}>
+                                                        Doutorando
+                                                    </option>
+                                                    <option value="7" {{ $teacher->graduation == 7 ? 'selected' : '' }}>
+                                                        Doutor(a)</option>
+                                                    <option value="8" {{ $teacher->graduation == 8 ? 'selected' : '' }}>
+                                                        Pós-Doutorando
+                                                    </option>
+                                                    <option value="9" {{ $teacher->graduation == 9 ? 'selected' : '' }}>
+                                                        Pós-Doutor(a)
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="telephone">Telefone</label>
+                                                <input type="text" class="form-control mask-telephone" name="telephone"
+                                                    value="{{ $teacher->telephone }}">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="whatsapp">WhatsApp</label>
+                                                <div class="col-sm-10">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="whatsapp"
+                                                            value="1" {{ $teacher->whatsapp == 1 ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="whatsapp">
+                                                            Sim
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="whatsapp"
+                                                            value="0" {{ $teacher->whatsapp == 0 ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="whatsapp">
+                                                            Não
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Nome</th>
-                                </tr>
-                            </tfoot>
-                            <tbody>
-                                @foreach ($students as $student)
-                                    @foreach ($classroom->students as $s)
-                                        @if ($student->id == $s->id)
-                                            <tr>
-                                                <td>{{ $student->name }}</td>
-                                            </tr>
-                                        @endif
+            @endif
+        @endforeach
+    @else
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <div class="card shadow mb-12">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Listagem de alunos na aula</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Nome</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    @foreach ($students as $student)
+                                        @foreach ($classroom->students as $s)
+                                            @if ($student->id == $s->id)
+                                                <tr>
+                                                    <td>{{ $student->name }}</td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
                                     @endforeach
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
 @endsection
 
 @section('js')
