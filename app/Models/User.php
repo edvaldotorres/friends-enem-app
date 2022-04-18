@@ -112,7 +112,7 @@ class User extends Authenticatable
 
     public function getTelephoneAttribute($value)
     {
-        return '+' . substr($value, 0, 2) . ' (' . substr($value, 2, 2) . ') ' . substr($value, 4, 5) . '-' . substr($value, 8, 4);
+        return '(' . substr($value, 0, 2) . ') ' . substr($value, 2, 5) . '-' . substr($value, 7, 4);
     }
 
     public function setPasswordAttribute($value)

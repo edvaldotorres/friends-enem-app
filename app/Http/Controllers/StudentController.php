@@ -18,7 +18,9 @@ class StudentController extends Controller
         $this->middleware('auth');
     }
 
-    private string $bladePath = 'students.index';
+    private string $bladePath = 'admin.students.index';
+
+    private string $routePath = 'students.index';
 
     /**
      * Display a listing of the resource.
@@ -39,7 +41,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('students.create');
+        return view('admin.students.create');
     }
 
     /**
@@ -52,18 +54,7 @@ class StudentController extends Controller
     {
         User::create($request->validated());
 
-        return $this->redirectStoreSuccess($this->bladePath);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return $this->redirectStoreSuccess($this->routePath);
     }
 
     /**
@@ -77,10 +68,10 @@ class StudentController extends Controller
         $student = User::find($id);
 
         if (!$student) {
-            return $this->redirectNotFound($this->bladePath);
+            return $this->redirectNotFound($this->routePath);
         }
 
-        return view('students.edit', compact('student'));
+        return view('admin.students.edit', compact('student'));
     }
 
     /**
@@ -95,12 +86,12 @@ class StudentController extends Controller
         $student = User::find($id);
 
         if (!$student) {
-            return $this->redirectNotFound($this->bladePath);
+            return $this->redirectNotFound($this->routePath);
         }
 
         $student->update($request->validated());
 
-        return $this->redirectUpdatedSuccess($this->bladePath);
+        return $this->redirectUpdatedSuccess($this->routePath);
     }
 
     /**

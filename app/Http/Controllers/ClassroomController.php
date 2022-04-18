@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserType;
 use App\Http\Requests\ClassroomRequest;
 use App\Models\Classroom;
 use App\Models\Discipline;
@@ -21,38 +22,7 @@ class ClassroomController extends Controller
         $this->middleware('auth');
     }
 
-    private string $bladePath = 'classrooms.index';
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $type = auth()->user()->type;
-
-        if ($type == 1) {
-
-            $classrooms = Classroom::all();
-
-            return view($this->bladePath, compact('classrooms'));
-        }
-
-        if ($type == 2) {
-
-            $classrooms = Classroom::where('user_id', auth()->user()->id)->get();
-
-            return view($this->bladePath, compact('classrooms'));
-        }
-
-        if ($type == 3) {
-
-            $classrooms = User::ClassroomsStudents(auth()->user()->id);
-
-            return view($this->bladePath, compact('classrooms'));
-        }
-    }
+    private string $bladePath = 'home';
 
     /**
      * Show the form for creating a new resource.
@@ -61,8 +31,7 @@ class ClassroomController extends Controller
      */
     public function create()
     {
-        if (!Gate::authorize('teacher-admin')) {
-        }
+        Gate::authorize('admin');
 
         $teachers = User::ListTeachers()->get();
 
@@ -70,7 +39,7 @@ class ClassroomController extends Controller
 
         $disciplines = Discipline::Disciplines()->get();
 
-        return view('classrooms.create', compact('teachers', 'students', 'disciplines'));
+        return view('admin.classrooms.create', compact('teachers', 'students', 'disciplines'));
     }
 
     /**
@@ -81,16 +50,13 @@ class ClassroomController extends Controller
      */
     public function store(ClassroomRequest $request)
     {
-        if (!Gate::authorize('teacher-admin')) {
+        Gate::authorize('admin');
+
+        $validatedClassroom = $this->validatedClassroom($request->user_id, $request->start_timestamp, $request->end_timestamp);
+
+        if ($validatedClassroom) {
+            return redirect()->back();
         }
-
-        // dd($request);
-        // $teste = Classroom::ValidateTeacherClassesNoOverlap($request->user_id, $request->start_timestamp, $request->end_timestamp)->get();
-        // $teste = Classroom::ValidateTeacherClassesNoFourHoursDay($request->user_id);
-
-        // $teste = Classroom::ValidateTeacherClassesNoTwoDiciplineDay($request->user_id, $request->start_timestamp);
-
-        // dd($teste);
 
         $classroom = Classroom::create($request->validated());
 
@@ -107,7 +73,47 @@ class ClassroomController extends Controller
      */
     public function show($id)
     {
-        //
+        if (auth()->user()->type == UserType::TEACHER_ADMIN) {
+
+            $classroom = Classroom::find($id);
+
+            if (!$classroom) {
+                return $this->redirectNotFound($this->bladePath);
+            }
+
+            $teachers = User::ListTeachers()->get();
+
+            $students = User::ListStudents()->get();
+
+            return view('admin.classrooms.show', compact('classroom', 'teachers', 'students'));
+        }
+
+        if (auth()->user()->type == UserType::TEACHER) {
+
+            $classroom = Classroom::where('user_id', auth()->user()->id)->find($id);
+
+            if (!$classroom) {
+                return $this->redirectNotFound($this->bladePath);
+            }
+
+            $teachers = User::ListTeachers()->get();
+
+            $students = User::ListStudents()->get();
+
+            return view('admin.classrooms.show', compact('classroom', 'teachers', 'students'));
+        }
+
+        $classroom = User::ClassroomsStudents(auth()->user()->id)->find($id);
+
+        if (!$classroom) {
+            return $this->redirectNotFound($this->bladePath);
+        }
+
+        $teachers = User::ListTeachers()->get();
+
+        $students = User::ListStudents()->get();
+
+        return view('admin.classrooms.show', compact('classroom', 'teachers', 'students'));
     }
 
     /**
@@ -118,8 +124,19 @@ class ClassroomController extends Controller
      */
     public function edit($id)
     {
-        if (!Gate::authorize('teacher-admin')) {
+        Gate::authorize('admin');
+
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return $this->redirectNotFound($this->bladePath);
         }
+
+        $teachers = User::ListTeachers()->get();
+
+        $students = User::ListStudents()->get();
+
+        return view('admin.classrooms.edit', compact('classroom', 'teachers', 'students'));
     }
 
     /**
@@ -129,10 +146,21 @@ class ClassroomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClassroomRequest $request, $id)
     {
-        if (!Gate::authorize('teacher-admin')) {
+        Gate::authorize('admin');
+
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return $this->redirectNotFound($this->bladePath);
         }
+
+        $classroom->update($request->validated());
+
+        $classroom->students()->sync($request['student_id']);
+
+        return $this->redirectUpdatedSuccess($this->bladePath);
     }
 
     /**
@@ -143,8 +171,17 @@ class ClassroomController extends Controller
      */
     public function destroy($id)
     {
-        if (!Gate::authorize('teacher-admin')) {
+        Gate::authorize('admin');
+
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return $this->redirectNotFound($this->bladePath);
         }
+
+        $classroom->delete();
+
+        return $this->redirectRemovedSuccess($this->bladePath);
     }
 
     /**
@@ -161,6 +198,6 @@ class ClassroomController extends Controller
 
         $teacherDisciplines = User::with('disciplines')->where('id', $teacher_id)->find($teacher_id);
 
-        return view('classrooms.ajax-discipline', compact('teacherDisciplines'));
+        return view('admin.classrooms.ajax-discipline', compact('teacherDisciplines'));
     }
 }

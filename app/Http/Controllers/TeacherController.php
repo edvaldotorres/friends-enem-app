@@ -17,8 +17,10 @@ class TeacherController extends Controller
     {
         $this->middleware('auth');
     }
-    
-    private string $bladePath = 'teachers.index';
+
+    private string $bladePath = 'admin.teachers.index';
+
+    private string $routePath = 'teachers.index';
 
     /**
      * Display a listing of the resource.
@@ -41,7 +43,7 @@ class TeacherController extends Controller
     {
         $disciplines = Discipline::all();
 
-        return view('teachers.create', compact('disciplines'));
+        return view('admin.teachers.create', compact('disciplines'));
     }
 
     /**
@@ -56,18 +58,7 @@ class TeacherController extends Controller
 
         $teacher->disciplines()->attach($request['discipline_id']);
 
-        return $this->redirectStoreSuccess($this->bladePath);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return $this->redirectStoreSuccess($this->routePath);
     }
 
     /**
@@ -81,12 +72,12 @@ class TeacherController extends Controller
         $teacher = User::find($id);
 
         if (!$teacher) {
-            return $this->redirectNotFound($this->bladePath);
+            return $this->redirectNotFound($this->routePath);
         }
 
         $disciplines = Discipline::all();
 
-        return view('teachers.edit', compact('teacher', 'disciplines'));
+        return view('admin.teachers.edit', compact('teacher', 'disciplines'));
     }
 
     /**
@@ -101,14 +92,14 @@ class TeacherController extends Controller
         $teacher = User::find($id);
 
         if (!$teacher) {
-            return $this->redirectNotFound($this->bladePath);
+            return $this->redirectNotFound($this->routePath);
         }
 
         $teacher->update($request->validated());
 
         $teacher->disciplines()->sync($request['discipline_id']);
 
-        return $this->redirectUpdatedSuccess($this->bladePath);
+        return $this->redirectUpdatedSuccess($this->routePath);
     }
 
     /**

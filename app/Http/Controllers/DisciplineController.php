@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DisciplineRequest;
+use App\Models\Discipline;
 use Illuminate\Http\Request;
 
 class DisciplineController extends Controller
@@ -16,6 +18,10 @@ class DisciplineController extends Controller
         $this->middleware('auth');
     }
 
+    private string $bladePath = 'admin.disciplines.index';
+
+    private string $routePath = 'disciplines.index';
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +29,9 @@ class DisciplineController extends Controller
      */
     public function index()
     {
-        //
+        $disciplines = Discipline::paginate(10);
+
+        return view($this->bladePath, compact('disciplines'));
     }
 
     /**
@@ -33,7 +41,7 @@ class DisciplineController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.disciplines.create');
     }
 
     /**
@@ -42,9 +50,11 @@ class DisciplineController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DisciplineRequest $request)
     {
-        //
+        Discipline::create($request->validated());
+
+        return $this->redirectStoreSuccess($this->routePath);
     }
 
     /**
@@ -55,7 +65,13 @@ class DisciplineController extends Controller
      */
     public function edit($id)
     {
-        //
+        $discipline = Discipline::find($id);
+
+        if (!$discipline) {
+            return $this->redirectNotFound($this->routePath);
+        }
+
+        return view('admin.disciplines.edit', compact('discipline'));
     }
 
     /**
@@ -65,9 +81,17 @@ class DisciplineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DisciplineRequest $request, $id)
     {
-        //
+        $discipline = Discipline::find($id);
+
+        if (!$discipline) {
+            return $this->redirectNotFound($this->routePath);
+        }
+
+        $discipline->update($request->validated());
+
+        return $this->redirectUpdatedSuccess($this->routePath);
     }
 
     /**
@@ -78,6 +102,14 @@ class DisciplineController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $discipline = Discipline::find($id);
+
+        if (!$discipline) {
+            return $this->redirectNotFound($this->routePath);
+        }
+
+        $discipline->delete();
+
+        return $this->redirectRemovedSuccess($this->routePath);
     }
 }

@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\DisciplineController;
 use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ use App\Http\Controllers\ClassroomController;
 */
 
 Auth::routes([
-    'register' => true
+    'register' => false
 ]);
 
 Route::get('/', function () {
