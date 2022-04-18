@@ -9,7 +9,7 @@
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Aulas - Editar</h1>
-        <a href="{{ route('classrooms.index') }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+        <a href="{{ route('home') }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
             <i class="fas fa-solid fa-list"></i> Voltar para listagem</a>
     </div>
     <div class="card shadow mb-4">
