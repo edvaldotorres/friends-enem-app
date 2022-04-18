@@ -41,7 +41,7 @@ class DisciplineController extends Controller
      */
     public function create()
     {
-        return view('admin.discipline.create');
+        return view('admin.disciplines.create');
     }
 
     /**
@@ -105,11 +105,11 @@ class DisciplineController extends Controller
         $discipline = Discipline::find($id);
 
         if (!$discipline) {
-            return $this->redirectNotFound($this->bladePath);
+            return $this->redirectNotFound($this->routePath);
         }
 
         $discipline->delete();
 
-        return $this->redirectRemovedSuccess($this->bladePath);
+        return $this->redirectRemovedSuccess($this->routePath);
     }
 }

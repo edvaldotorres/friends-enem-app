@@ -43,6 +43,8 @@
                                     </a>
                                     <form action="{{ route('disciplines.destroy', ['discipline' => $discipline->id]) }}"
                                         method="POST">
+                                        @csrf
+                                        @method('DELETE')
                                         <button class="btn btn-danger">
                                             <i class="fas fa-solid fa-trash"></i>
                                         </button>
