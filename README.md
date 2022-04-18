@@ -20,6 +20,18 @@
 
 ## Install
 
+1. Clone your repository, example:
+
+```sh
+git clone https://github.com/edvaldotorres/friends-enem-app
+```
+2. Change directory into the newly created app/project.
+
+```sh
+cd friends-enem-app
+```
+3. Install all required dependencies
+
 ```sh
 docker run --rm \
     -u "$(id -u):$(id -g)" \
@@ -28,21 +40,49 @@ docker run --rm \
     laravelsail/php81-composer:latest \
     composer install --ignore-platform-reqs
 ```
+NOTE: This may take a while if this is the first time installing this as a container.
+
+4. Set the proper permissions to the project files.
+
+```sh
+sudo chown -R $USER: .
+```
+5. Create a database to be used by this project
+
+> #mysql --password=  --execute='create database friends_enem_app'
+> #exit
+
+6. Copy .env File
+
 ```sh
 cp .env.example .env
 ```
+7. Open .env to match the following line:
+
+> FROM: DB_HOST=127.0.0.1
+  TO: DB_HOST=mysql
+
+10. Generate APP_KEY Key.
+
 ```sh
 sail artisan key:generate
 ```
+11. Build the seed.
+
 ```sh
-sail artisan migrate
+sail artisan migrate:fresh --seed
 ```
 ## Usage
+
+1. Run the servers with Sail
 
 ```sh
 sail up -d
 ```
+2. You can now open your application with your browser: http://localhost
 
+> E-mail: admin@admin.com.br
+> Senha: 123Admin@admin
 ## Author
 
 👤 **Edvaldo Torres de Souza**
