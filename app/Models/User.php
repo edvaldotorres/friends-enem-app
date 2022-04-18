@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\UserType;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -165,15 +166,15 @@ class User extends Authenticatable
     public function scopeListTeachers(Builder $q)
     {
         $q->where(function ($query) {
-            $query->where('type', 1);
+            $query->where('type', UserType::TEACHER_ADMIN);
         })->orWhere(function ($query) {
-            $query->where('type', 2);
+            $query->where('type', UserType::TEACHER);
         });
     }
 
     public function scopeListStudents(Builder $query)
     {
-        $query->where('type', 3)->orderBy('name', 'ASC');
+        $query->where('type', UserType::STUDENT)->orderBy('name', 'ASC');
     }
 
     public function scopeClassroomsStudents($filter, $id)

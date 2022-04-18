@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DisciplineRequest;
 use App\Models\Discipline;
-use Illuminate\Http\Request;
 
 class DisciplineController extends Controller
 {
