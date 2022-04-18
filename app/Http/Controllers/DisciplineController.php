@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Discipline;
 use Illuminate\Http\Request;
 
 class DisciplineController extends Controller
@@ -16,6 +17,10 @@ class DisciplineController extends Controller
         $this->middleware('auth');
     }
 
+    private string $bladePath = 'admin.disciplines.index';
+
+    private string $routePath = 'disciplines.index';
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +28,9 @@ class DisciplineController extends Controller
      */
     public function index()
     {
-        //
+        $disciplines = Discipline::paginate(10);
+
+        return view($this->bladePath, compact('disciplines'));
     }
 
     /**
@@ -33,7 +40,7 @@ class DisciplineController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.discipline.create');
     }
 
     /**
@@ -44,7 +51,9 @@ class DisciplineController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Discipline::create($request->validated());
+
+        return $this->redirectStoreSuccess($this->routePath);
     }
 
     /**
@@ -55,7 +64,13 @@ class DisciplineController extends Controller
      */
     public function edit($id)
     {
-        //
+        $discipline = Discipline::find($id);
+
+        if (!$discipline) {
+            return $this->redirectNotFound($this->routePath);
+        }
+
+        return view('admin.disciplines.edit', compact('discipline'));
     }
 
     /**
@@ -67,7 +82,15 @@ class DisciplineController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $discipline = Discipline::find($id);
+
+        if (!$discipline) {
+            return $this->redirectNotFound($this->routePath);
+        }
+
+        $discipline->update($request->validated());
+
+        return $this->redirectUpdatedSuccess($this->routePath);
     }
 
     /**
@@ -78,6 +101,14 @@ class DisciplineController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $discipline = Discipline::find($id);
+
+        if (!$discipline) {
+            return $this->redirectNotFound($this->bladePath);
+        }
+
+        $discipline->delete();
+
+        return $this->redirectRemovedSuccess($this->bladePath);
     }
 }
