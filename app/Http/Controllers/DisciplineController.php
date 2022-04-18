@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DisciplineRequest;
 use App\Models\Discipline;
 use Illuminate\Http\Request;
 
@@ -49,7 +50,7 @@ class DisciplineController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DisciplineRequest $request)
     {
         Discipline::create($request->validated());
 
@@ -80,7 +81,7 @@ class DisciplineController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DisciplineRequest $request, $id)
     {
         $discipline = Discipline::find($id);
 

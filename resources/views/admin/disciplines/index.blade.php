@@ -22,11 +22,13 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
+                            <th>Opções</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>Nome</th>
+                            <th>Opções</th>
                         </tr>
                     </tfoot>
                     <tbody>
