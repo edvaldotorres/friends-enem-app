@@ -52,12 +52,12 @@
                             <div class="form-group col-md-6">
                                 <label for="start_timestamp">Data/Horário início da aula</label>
                                 <input type="text" class="form-control datetimepicker" name="start_timestamp"
-                                    value="{{ old('start_timestamp') ?? $classroom->startTimestampDate }}" disabled>
+                                    value="{{ old('start_timestamp') ?? $classroom->startTimestampDate }}">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="end_timestamp">Data/Horário término da aula</label>
                                 <input type="text" class="form-control datetimepicker" name="end_timestamp"
-                                    value="{{ old('end_timestamp') ?? $classroom->endTimestampDate }}" disabled>
+                                    value="{{ old('end_timestamp') ?? $classroom->endTimestampDate }}">
                             </div>
                         </div>
                         <div class="form-row">

@@ -73,37 +73,17 @@ class ClassroomController extends Controller
      */
     public function show($id)
     {
-        if (auth()->user()->type == UserType::TEACHER_ADMIN) {
-
-            $classroom = Classroom::find($id);
-
-            if (!$classroom) {
-                return $this->redirectNotFound($this->routePath);
-            }
-
-            $teachers = User::ListTeachers()->get();
-
-            $students = User::ListStudents()->get();
-
-            return view('admin.classrooms.show', compact('classroom', 'teachers', 'students'));
+        switch (auth()->user()->type) {
+            case UserType::TEACHER_ADMIN:
+                $classroom = Classroom::find($id);
+                break;
+            case UserType::TEACHER:
+                $classroom = Classroom::where('user_id', auth()->user()->id)->find($id);
+                break;
+            default:
+                $classroom = User::ClassroomsStudents(auth()->user()->id)->find($id);
+                break;
         }
-
-        if (auth()->user()->type == UserType::TEACHER) {
-
-            $classroom = Classroom::where('user_id', auth()->user()->id)->find($id);
-
-            if (!$classroom) {
-                return $this->redirectNotFound($this->routePath);
-            }
-
-            $teachers = User::ListTeachers()->get();
-
-            $students = User::ListStudents()->get();
-
-            return view('admin.classrooms.show', compact('classroom', 'teachers', 'students'));
-        }
-
-        $classroom = User::ClassroomsStudents(auth()->user()->id)->find($id);
 
         if (!$classroom) {
             return $this->redirectNotFound($this->routePath);
@@ -154,6 +134,28 @@ class ClassroomController extends Controller
 
         if (!$classroom) {
             return $this->redirectNotFound($this->routePath);
+        }
+
+        $teacherNoTwoDiciplineDay = false;
+        $teacherNoOverlap = false;
+        $teacherNoFourHoursDay = false;
+        $validatedDate = false;
+
+        if ($classroom->discipline_id != $request->discipline_id) {
+            $teacherNoTwoDiciplineDay = $this->teacherNoTwoDiciplineDay($request->user_id, $request->start_timestamp);
+        }
+
+        if ($classroom->startTimestampDate != $request->start_timestamp || $classroom->endTimestampDate != $request->end_timestamp) {
+
+            $teacherNoOverlap = $this->teacherNoOverlap($request->user_id, $request->start_timestamp, $request->end_timestamp);
+
+            $teacherNoFourHoursDay = $this->teacherNoFourHoursDay($request->user_id, $request->start_timestamp);
+
+            $validatedDate = $this->validatedDate($request->start_timestamp, $request->end_timestamp);
+        }
+
+        if ($teacherNoTwoDiciplineDay || $teacherNoOverlap || $teacherNoFourHoursDay || $validatedDate) {
+            return redirect()->back();
         }
 
         $classroom->update($request->validated());

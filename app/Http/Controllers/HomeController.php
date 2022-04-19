@@ -27,21 +27,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->type == UserType::TEACHER_ADMIN) {
-
-            $classrooms = Classroom::all();
-
-            return view($this->bladePath, compact('classrooms'));
+        switch (auth()->user()->type) {
+            case UserType::TEACHER_ADMIN:
+                $classrooms = Classroom::all();
+                break;
+            case UserType::TEACHER:
+                $classrooms = Classroom::where('user_id', auth()->user()->id)->get();
+                break;
+            default:
+                $classrooms = User::ClassroomsStudents(auth()->user()->id);
+                break;
         }
-
-        if (auth()->user()->type == UserType::TEACHER) {
-
-            $classrooms = Classroom::where('user_id', auth()->user()->id)->get();
-
-            return view($this->bladePath, compact('classrooms'));
-        }
-
-        $classrooms = User::ClassroomsStudents(auth()->user()->id);
 
         return view($this->bladePath, compact('classrooms'));
     }
