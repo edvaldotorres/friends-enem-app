@@ -110,6 +110,14 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $teacher = User::find($id);
+
+        if (!$teacher) {
+            return $this->redirectNotFound($this->routePath);
+        }
+
+        $teacher->delete();
+
+        return $this->redirectRemovedSuccess($this->routePath);
     }
 }
