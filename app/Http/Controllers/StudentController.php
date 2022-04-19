@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StudentRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
@@ -102,6 +101,14 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student = User::find($id);
+
+        if (!$student) {
+            return $this->redirectNotFound($this->routePath);
+        }
+
+        $student->delete();
+
+        return $this->redirectRemovedSuccess($this->routePath);
     }
 }
