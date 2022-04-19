@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DisciplineRequest;
 use App\Models\Discipline;
+use Illuminate\Support\Facades\Gate;
 
 class DisciplineController extends Controller
 {
@@ -28,6 +29,8 @@ class DisciplineController extends Controller
      */
     public function index()
     {
+        Gate::authorize('admin');
+
         $disciplines = Discipline::paginate(10);
 
         return view($this->bladePath, compact('disciplines'));
@@ -40,6 +43,8 @@ class DisciplineController extends Controller
      */
     public function create()
     {
+        Gate::authorize('admin');
+        
         return view('admin.disciplines.create');
     }
 
@@ -51,6 +56,8 @@ class DisciplineController extends Controller
      */
     public function store(DisciplineRequest $request)
     {
+        Gate::authorize('admin');
+
         Discipline::create($request->validated());
 
         return $this->redirectStoreSuccess($this->routePath);
@@ -64,6 +71,8 @@ class DisciplineController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('admin');
+
         $discipline = Discipline::find($id);
 
         if (!$discipline) {
@@ -82,6 +91,8 @@ class DisciplineController extends Controller
      */
     public function update(DisciplineRequest $request, $id)
     {
+        Gate::authorize('admin');
+
         $discipline = Discipline::find($id);
 
         if (!$discipline) {
@@ -101,6 +112,8 @@ class DisciplineController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('admin');
+        
         $discipline = Discipline::find($id);
 
         if (!$discipline) {
