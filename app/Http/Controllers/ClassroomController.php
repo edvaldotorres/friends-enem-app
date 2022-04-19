@@ -22,7 +22,7 @@ class ClassroomController extends Controller
         $this->middleware('auth');
     }
 
-    private string $bladePath = 'home';
+    private string $routePath = 'home';
 
     /**
      * Show the form for creating a new resource.
@@ -62,7 +62,7 @@ class ClassroomController extends Controller
 
         $classroom->students()->attach($request['student_id']);
 
-        return $this->redirectStoreSuccess($this->bladePath);
+        return $this->redirectStoreSuccess($this->routePath);
     }
 
     /**
@@ -78,7 +78,7 @@ class ClassroomController extends Controller
             $classroom = Classroom::find($id);
 
             if (!$classroom) {
-                return $this->redirectNotFound($this->bladePath);
+                return $this->redirectNotFound($this->routePath);
             }
 
             $teachers = User::ListTeachers()->get();
@@ -93,7 +93,7 @@ class ClassroomController extends Controller
             $classroom = Classroom::where('user_id', auth()->user()->id)->find($id);
 
             if (!$classroom) {
-                return $this->redirectNotFound($this->bladePath);
+                return $this->redirectNotFound($this->routePath);
             }
 
             $teachers = User::ListTeachers()->get();
@@ -106,7 +106,7 @@ class ClassroomController extends Controller
         $classroom = User::ClassroomsStudents(auth()->user()->id)->find($id);
 
         if (!$classroom) {
-            return $this->redirectNotFound($this->bladePath);
+            return $this->redirectNotFound($this->routePath);
         }
 
         $teachers = User::ListTeachers()->get();
@@ -129,7 +129,7 @@ class ClassroomController extends Controller
         $classroom = Classroom::find($id);
 
         if (!$classroom) {
-            return $this->redirectNotFound($this->bladePath);
+            return $this->redirectNotFound($this->routePath);
         }
 
         $teachers = User::ListTeachers()->get();
@@ -153,14 +153,14 @@ class ClassroomController extends Controller
         $classroom = Classroom::find($id);
 
         if (!$classroom) {
-            return $this->redirectNotFound($this->bladePath);
+            return $this->redirectNotFound($this->routePath);
         }
 
         $classroom->update($request->validated());
 
         $classroom->students()->sync($request['student_id']);
 
-        return $this->redirectUpdatedSuccess($this->bladePath);
+        return $this->redirectUpdatedSuccess($this->routePath);
     }
 
     /**
@@ -176,12 +176,12 @@ class ClassroomController extends Controller
         $classroom = Classroom::find($id);
 
         if (!$classroom) {
-            return $this->redirectNotFound($this->bladePath);
+            return $this->redirectNotFound($this->routePath);
         }
 
         $classroom->delete();
 
-        return $this->redirectRemovedSuccess($this->bladePath);
+        return $this->redirectRemovedSuccess($this->routePath);
     }
 
     /**
