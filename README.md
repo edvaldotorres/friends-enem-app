@@ -47,39 +47,39 @@ NOTE: This may take a while if this is the first time installing this as a conta
 ```sh
 sudo chown -R $USER: .
 ```
-5. Create a database to be used by this project
+5. Run the servers with Sail
+
+```sh
+vendor/bin/sail up -d
+```
+6. Create a database to be used by this project
 
 > #mysql --password=  --execute='create database friends_enem_app'
 > #exit
 
-6. Copy .env File
+7. Copy .env File
 
 ```sh
 cp .env.example .env
 ```
-7. Open .env to match the following line:
+8. Open .env to match the following line:
 
 > FROM: DB_HOST=127.0.0.1
   TO: DB_HOST=mysql
 
-10. Generate APP_KEY Key.
+9. Generate APP_KEY Key.
 
 ```sh
-sail artisan key:generate
+php artisan key:generate
 ```
-11. Build the seed.
+10. Build the seed.
 
 ```sh
 sail artisan migrate:fresh --seed
 ```
 ## Usage
 
-1. Run the servers with Sail
-
-```sh
-sail up -d
-```
-2. You can now open your application with your browser: http://localhost
+1. You can now open your application with your browser: http://localhost
 
 > E-mail: admin@admin.com.br
 > Senha: 123Admin@admin
