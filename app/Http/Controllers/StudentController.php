@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StudentRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class StudentController extends Controller
 {
@@ -29,6 +29,8 @@ class StudentController extends Controller
      */
     public function index()
     {
+        Gate::authorize('admin');
+        
         $students = User::ListStudents()->paginate(10);
 
         return view($this->bladePath, compact('students'));
@@ -41,6 +43,8 @@ class StudentController extends Controller
      */
     public function create()
     {
+        Gate::authorize('admin');
+
         return view('admin.students.create');
     }
 
@@ -52,6 +56,8 @@ class StudentController extends Controller
      */
     public function store(StudentRequest $request)
     {
+        Gate::authorize('admin');
+
         User::create($request->validated());
 
         return $this->redirectStoreSuccess($this->routePath);
@@ -65,6 +71,8 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('admin');
+
         $student = User::find($id);
 
         if (!$student) {
@@ -83,6 +91,8 @@ class StudentController extends Controller
      */
     public function update(StudentRequest $request, $id)
     {
+        Gate::authorize('admin');
+
         $student = User::find($id);
 
         if (!$student) {
@@ -102,6 +112,16 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Gate::authorize('admin');
+        
+        $student = User::find($id);
+
+        if (!$student) {
+            return $this->redirectNotFound($this->routePath);
+        }
+
+        $student->delete();
+
+        return $this->redirectRemovedSuccess($this->routePath);
     }
 }

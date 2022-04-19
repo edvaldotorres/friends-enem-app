@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TeacherRequest;
 use App\Models\Discipline;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class TeacherController extends Controller
 {
@@ -29,6 +30,8 @@ class TeacherController extends Controller
      */
     public function index()
     {
+        Gate::authorize('admin');
+        
         $teachers = User::ListTeachers()->paginate(10);
 
         return view($this->bladePath, compact('teachers'));
@@ -41,6 +44,8 @@ class TeacherController extends Controller
      */
     public function create()
     {
+        Gate::authorize('admin');
+
         $disciplines = Discipline::all();
 
         return view('admin.teachers.create', compact('disciplines'));
@@ -54,6 +59,8 @@ class TeacherController extends Controller
      */
     public function store(TeacherRequest $request)
     {
+        Gate::authorize('admin');
+
         $teacher = User::create($request->validated());
 
         $teacher->disciplines()->attach($request['discipline_id']);
@@ -69,6 +76,8 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('admin');
+
         $teacher = User::find($id);
 
         if (!$teacher) {
@@ -89,6 +98,8 @@ class TeacherController extends Controller
      */
     public function update(TeacherRequest $request, $id)
     {
+        Gate::authorize('admin');
+
         $teacher = User::find($id);
 
         if (!$teacher) {
@@ -110,6 +121,16 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Gate::authorize('admin');
+        
+        $teacher = User::find($id);
+
+        if (!$teacher) {
+            return $this->redirectNotFound($this->routePath);
+        }
+
+        $teacher->delete();
+
+        return $this->redirectRemovedSuccess($this->routePath);
     }
 }
