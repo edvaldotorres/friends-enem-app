@@ -50,7 +50,7 @@ sudo chown -R $USER: .
 5. Run the servers with Sail
 
 ```sh
-sail up -d
+vendor/bin/sail up -d
 ```
 6. Create a database to be used by this project
 
@@ -70,7 +70,7 @@ cp .env.example .env
 9. Generate APP_KEY Key.
 
 ```sh
-sail artisan key:generate
+php artisan key:generate
 ```
 10. Build the seed.
 
