@@ -97,7 +97,13 @@
                                 <td>{{ $classroom->week }}</td>
                                 <td>{{ $classroom->start_timestamp }}</td>
                                 <td>{{ $classroom->end_timestamp }}</td>
-                                <td>{{ $classroom->discipline_id }}</td>
+                                <td>
+                                    @foreach ($disciplines as $discipline)
+                                        @if ($discipline->id == $classroom->discipline_id)
+                                            {{ $discipline->name }}
+                                        @endif
+                                    @endforeach
+                                </td>
                                 <td class="d-flex justify-content-sm-around">
                                     @can('admin')
                                         <a class="btn btn-primary"

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\UserType;
 use App\Models\Classroom;
+use App\Models\Discipline;
 use App\Models\User;
 
 class HomeController extends Controller
@@ -39,6 +40,8 @@ class HomeController extends Controller
                 break;
         }
 
-        return view($this->bladePath, compact('classrooms'));
+        $disciplines = Discipline::all();
+
+        return view($this->bladePath, compact('classrooms', 'disciplines'));
     }
 }
