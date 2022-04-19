@@ -84,11 +84,14 @@ trait ValidClassroom
         $formatStartTimestamp = Carbon::createFromFormat('d/m/Y H:i', $startTimestamp)->format('Y-m-d H:i:s');
         $formatEndTimestamp = Carbon::createFromFormat('d/m/Y H:i', $endTimestamp)->format('Y-m-d H:i:s');
 
+        $formatStartTimestampDate = Carbon::createFromFormat('d/m/Y H:i', $startTimestamp)->format('Y-m-d');
+        $formatEndTimestampDate = Carbon::createFromFormat('d/m/Y H:i', $endTimestamp)->format('Y-m-d');
+
         if ($formatStartTimestamp >= $formatEndTimestamp) {
             return $this->redirectValidateClassromm('A data de início não pode ser maior que a data de término!');
         }
 
-        if ($formatStartTimestamp != $formatEndTimestamp) {
+        if ($formatStartTimestampDate != $formatEndTimestampDate) {
             return $this->redirectValidateClassromm('A data de início e término devem ser iguais!');
         }
 
